@@ -40,10 +40,26 @@ function DragonFruitLib:CreateWindow(config)
 	WindowObj.Tabs = {}
 
 	local ScreenGui = Instance.new("ScreenGui")
-	ScreenGui.Name = "Dragonfruithub_core"
+	ScreenGui.Name = game:GetService("HttpService"):GenerateGUID(false)
 	ScreenGui.ResetOnSpawn = false
-	ScreenGui.Parent = PlayerGui
+
+	if gethui then
+		ScreenGui.Parent = gethui()
+	elseif syn and syn.protect_gui then
+		syn.protect_gui(ScreenGui)
+		ScreenGui.Parent = game:GetService("CoreGui")
+	else
+		local success, _ = pcall(function()
+				ScreenGui.Parent = game:GetService("CoreGui")
+		end)
+		if not success then
+			local targetGui = (typeof(PlayerGui) ~= "nil" and PlayerGui) or game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui")
+			ScreenGui.Parent = targetGui
+		end	
+	end
+		
 	WindowObj.ScreenGui = ScreenGui
+
 
 	-- Nút bật/tắt UI (Có kéo thả + animation)
 	local ToggleBtn = Instance.new("ImageButton", ScreenGui)
