@@ -31,6 +31,15 @@ FarmTab:AddToggle({
 	end
 })
 
+MainTab:AddDropdown({
+    Text = "Chọn Vũ Khí",
+    Items = {"Katana", "Blade", "Gun"},
+    Default = "Katana",
+    Callback = function(selectedItem)
+        print("Đã chọn:", selectedItem)
+    end
+})
+
 FarmTab:AddToggle({
 	Text = "Tự động nhặt đồ",
 	Default = true,
@@ -50,6 +59,15 @@ FarmTab:AddSlider({
 })
 
 -- Thêm chức năng vào Tab Cài Đặt
+SettingsTab:AddTextBox({
+    Text = "Webhook URL",
+    Placeholder = "Dán link Discord Webhook vào đây...",
+    Default = "",
+    Callback = function(text, enterPressed)
+        print("Nội dung đã nhập:", text)
+	end
+})
+		
 SettingsTab:AddToggle({
 	Text = "Gửi thông báo Webhook",
 	Default = false,
