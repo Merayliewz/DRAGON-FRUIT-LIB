@@ -127,14 +127,14 @@ function DragonFruitLib:CreateWindow(config)
 	local RedButton = dotButtons[1]   -- Nút đỏ
 	local YellowButton = dotButtons[2] -- Nút vàng
 
-	-- 1. Nút Đỏ: Hủy / Xóa sạch hoàn toàn UI khỏi game[span_0](start_span)[span_0](end_span)
+	-- 1. Nút Đỏ: Hủy / Xóa sạch hoàn toàn UI khỏi game[span_1](start_span)[span_1](end_span)
 	RedButton.MouseButton1Click:Connect(function()
 		if ScreenGui then
 			ScreenGui:Destroy()
 		end
 	end)
 
-	-- 2. Nút Vàng: Thu nhỏ / Ẩn hiện khung giao diện chính[span_1](start_span)[span_1](end_span)
+	-- 2. Nút Vàng: Thu nhỏ / Ẩn hiện khung giao diện chính[span_2](start_span)[span_2](end_span)
 	local isMinimized = false
 	YellowButton.MouseButton1Click:Connect(function()
 		isMinimized = not isMinimized
@@ -422,7 +422,7 @@ function DragonFruitLib:CreateTab(tabName)
 		end)
 	end
 
-	-- 3. TÍNH NĂNG MỚI: DROPDOWN (Chọn mục từ danh sách)
+	-- 3. ĐÃ SỬA: DROPDOWN (Hiển thị mượt mà, không bị cắt nội dung)
 	function TabObj:AddDropdown(options)
 		local dropText = options.Text or "Dropdown"
 		local items = options.Items or {}
@@ -435,11 +435,14 @@ function DragonFruitLib:CreateTab(tabName)
 		local maxVisibleItems = 4
 		local currentChoice = defaultItem
 
+		local visibleCount = math.clamp(#items, 1, maxVisibleItems)
+		local openedHeight = headerHeight + (visibleCount * itemHeight) + 12
+
 		local frame = Instance.new("Frame", page)
 		frame.Name = "Dropdown"
 		frame.Size = UDim2.new(1, -5, 0, headerHeight)
 		frame.BackgroundColor3 = Colors.Background
-		frame.ClipsDescendants = true
+		frame.ZIndex = 5
 		AddUICorner(frame, 6)
 		AddUIStroke(frame, Colors.Border)
 
@@ -447,6 +450,7 @@ function DragonFruitLib:CreateTab(tabName)
 		label.Size = UDim2.new(1, -40, 0, headerHeight)
 		label.Position = UDim2.new(0, 12, 0, 0)
 		label.BackgroundTransparency = 1
+		label.ZIndex = 6
 		label.Text = dropText .. ": " .. tostring(currentChoice)
 		label.TextColor3 = Colors.TextMain
 		label.Font = Enum.Font.GothamMedium
@@ -457,6 +461,7 @@ function DragonFruitLib:CreateTab(tabName)
 		arrow.Size = UDim2.new(0, 30, 0, headerHeight)
 		arrow.Position = UDim2.new(1, -35, 0, 0)
 		arrow.BackgroundTransparency = 1
+		arrow.ZIndex = 6
 		arrow.Text = "▼"
 		arrow.TextColor3 = Colors.TextSub
 		arrow.Font = Enum.Font.GothamBold
@@ -464,11 +469,13 @@ function DragonFruitLib:CreateTab(tabName)
 
 		local listContainer = Instance.new("ScrollingFrame", frame)
 		listContainer.Size = UDim2.new(1, -10, 0, 0)
-		listContainer.Position = UDim2.new(0, 5, 0, headerHeight)
+		listContainer.Position = UDim2.new(0, 5, 0, headerHeight + 2)
 		listContainer.BackgroundTransparency = 1
 		listContainer.BorderSizePixel = 0
+		listContainer.ZIndex = 10
 		listContainer.CanvasSize = UDim2.new(0, 0, 0, #items * itemHeight)
 		listContainer.ScrollBarThickness = 2
+		listContainer.ClipsDescendants = true
 
 		local listLayout = Instance.new("UIListLayout", listContainer)
 		listLayout.SortOrder = Enum.SortOrder.LayoutOrder
@@ -478,6 +485,7 @@ function DragonFruitLib:CreateTab(tabName)
 			local itemBtn = Instance.new("TextButton", listContainer)
 			itemBtn.Size = UDim2.new(1, 0, 0, itemHeight)
 			itemBtn.BackgroundColor3 = Colors.SidebarUnselected
+			itemBtn.ZIndex = 11
 			itemBtn.Text = tostring(item)
 			itemBtn.TextColor3 = Colors.TextSub
 			itemBtn.Font = Enum.Font.Gotham
@@ -490,8 +498,8 @@ function DragonFruitLib:CreateTab(tabName)
 				label.Text = dropText .. ": " .. tostring(currentChoice)
 				isDropped = false
 				
-				local targetHeight = headerHeight
-				TweenService:Create(frame, TweenInfo.new(0.2), {Size = UDim2.new(1, -5, 0, targetHeight)}):Play()
+				TweenService:Create(frame, TweenInfo.new(0.2), {Size = UDim2.new(1, -5, 0, headerHeight)}):Play()
+				TweenService:Create(listContainer, TweenInfo.new(0.2), {Size = UDim2.new(1, -10, 0, 0)}):Play()
 				TweenService:Create(arrow, TweenInfo.new(0.2), {Rotation = 0}):Play()
 				callback(currentChoice)
 			end)
@@ -500,16 +508,20 @@ function DragonFruitLib:CreateTab(tabName)
 		local triggerBtn = Instance.new("TextButton", frame)
 		triggerBtn.Size = UDim2.new(1, 0, 0, headerHeight)
 		triggerBtn.BackgroundTransparency = 1
+		triggerBtn.ZIndex = 7
 		triggerBtn.Text = ""
 
 		triggerBtn.MouseButton1Click:Connect(function()
 			isDropped = not isDropped
-			local visibleCount = math.clamp(#items, 1, maxVisibleItems)
-			local targetHeight = isDropped and (headerHeight + (visibleCount * itemHeight) + 8) or headerHeight
 
 			TweenService:Create(frame, TweenInfo.new(0.25, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {
-				Size = UDim2.new(1, -5, 0, targetHeight)
+				Size = UDim2.new(1, -5, 0, isDropped and openedHeight or headerHeight)
 			}):Play()
+			
+			TweenService:Create(listContainer, TweenInfo.new(0.25, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {
+				Size = UDim2.new(1, -10, 0, isDropped and (visibleCount * itemHeight) or 0)
+			}):Play()
+
 			TweenService:Create(arrow, TweenInfo.new(0.25), {
 				Rotation = isDropped and 180 or 0
 			}):Play()
