@@ -31,7 +31,7 @@ FarmTab:AddToggle({
 	end
 })
 
-MainTab:AddDropdown({
+FarmTab:AddDropdown({
     Text = "Chọn Vũ Khí",
     Items = {"Katana", "Blade", "Gun"},
     Default = "Katana",
