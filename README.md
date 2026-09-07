@@ -26,7 +26,7 @@ This example contains every available UI component without skipping any element:
 
 ```lua
 -- Load Library
-local DragonFruitLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/Merayliewz/DRAGON-FRUIT-LIB/refs/heads/main/dragonfruit%20lib.lua"))()
+local DragonFruitLib = loadstring(game:HttpGet("[https://raw.githubusercontent.com/Merayliewz/DRAGON-FRUIT-LIB/refs/heads/main/dragonfruit%20lib.lua](https://raw.githubusercontent.com/Merayliewz/DRAGON-FRUIT-LIB/refs/heads/main/dragonfruit%20lib.lua)"))()
 
 -- 1. Create Window
 local Window = DragonFruitLib:CreateWindow({
@@ -34,9 +34,10 @@ local Window = DragonFruitLib:CreateWindow({
     Logo = "rbxassetid://90272501948122" -- Asset ID for your dragon fruit logo
 })
 
--- 2. Create Tabs
-local MainTab = Window:CreateTab("Main")
-local SettingsTab = Window:CreateTab("Settings")
+-- 2. Create Tabs (Supports text/emoji icons as the second argument)
+local MainTab = Window:CreateTab("Main", "🏠")
+local FarmTab = Window:CreateTab("Auto Farm", "⚔️")
+local SettingsTab = Window:CreateTab("Settings", "⚙️")
 
 -- 3. Label Component
 MainTab:AddLabel("Welcome to Dragon Fruit Hub!")
@@ -68,6 +69,26 @@ MainTab:AddSlider({
         if game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Character:FindFirstChild("Humanoid") then
             game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Value
         end
+    end
+})
+
+-- 7. Dropdown Component
+FarmTab:AddDropdown({
+    Text = "Select Weapon",
+    Items = {"Katana", "Melee", "Sword", "Fruit"},
+    Default = "Katana",
+    Callback = function(Selected)
+        print("Selected weapon:", Selected)
+    end
+})
+
+-- 8. TextBox Component
+SettingsTab:AddTextBox({
+    Text = "Webhook Link",
+    Placeholder = "Paste webhook here...",
+    Default = "",
+    Callback = function(Text, EnterPressed)
+        print("Input text:", Text)
     end
 })
 ```
