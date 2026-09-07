@@ -86,7 +86,7 @@ function DragonFruitLib:CreateWindow(config)
 	AddUIStroke(MainFrame, Colors.Border)
 	WindowObj.MainFrame = MainFrame
 
-	-- Animation Mở / Đóng Cửa Sổ
+	-- Animation Mở / Đóng Cửa Sổ từ nút tròn nổi
 	local isOpen = true
 	ToggleBtn.MouseButton1Click:Connect(function()
 		isOpen = not isOpen
@@ -113,13 +113,36 @@ function DragonFruitLib:CreateWindow(config)
 	Header.Size = UDim2.new(1, 0, 0, 40)
 	Header.BackgroundTransparency = 1
 
+	-- Thay đổi các nút chấm tròn thành TextButton để bấm được
+	local dotButtons = {}
 	for i, color in ipairs(Colors.Dots) do
-		local dot = Instance.new("Frame", Header)
+		local dot = Instance.new("TextButton", Header)
 		dot.Size = UDim2.new(0, 10, 0, 10)
 		dot.Position = UDim2.new(0, 15 + (i - 1) * 18, 0, 15)
 		dot.BackgroundColor3 = color
+		dot.Text = ""
+		dot.AutoButtonColor = false
 		AddUICorner(dot, 5)
+		table.insert(dotButtons, dot)
 	end
+
+	local RedButton = dotButtons[1]   -- Nút đỏ (Index 1)
+	local YellowButton = dotButtons[2] -- Nút vàng (Index 2)
+	-- dotButtons[3] là nút xanh lá (bỏ trống không gán sự kiện)
+
+	-- 1. Nút Đỏ: Hủy / Xóa sạch hoàn toàn UI khỏi game
+	RedButton.MouseButton1Click:Connect(function()
+		if ScreenGui then
+			ScreenGui:Destroy()
+		end
+	end)
+
+	-- 2. Nút Vàng: Thu nhỏ / Ẩn hiện khung giao diện chính
+	local isMinimized = false
+	YellowButton.MouseButton1Click:Connect(function()
+		isMinimized = not isMinimized
+		MainFrame.Visible = not isMinimized
+	end)
 
 	local TitleLabel = Instance.new("TextLabel", Header)
 	TitleLabel.Size = UDim2.new(1, -100, 1, 0)
@@ -148,14 +171,14 @@ function DragonFruitLib:CreateWindow(config)
 	SidebarLine.Position = UDim2.new(1, 0, 0, 0)
 	SidebarLine.BackgroundColor3 = Colors.Border
 
-	-- LOGO BỰ NẰM CHÍNH GIỮA SIDEBAR (ĐÚNG Ý BẠN & GIỐNG ẢNH 2)
+	-- LOGO BỰ NẰM CHÍNH GIỮA SIDEBAR
 	local SidebarLogo = Instance.new("ImageLabel", Sidebar)
-	SidebarLogo.Size = UDim2.new(0, 48, 0, 48) -- Kích thước bự rõ ràng
-	SidebarLogo.Position = UDim2.new(0.5, -24, 0, 10) -- Căn nằm đúng giữa Sidebar
+	SidebarLogo.Size = UDim2.new(0, 48, 0, 48)
+	SidebarLogo.Position = UDim2.new(0.5, -24, 0, 10)
 	SidebarLogo.BackgroundTransparency = 1
 	SidebarLogo.Image = WindowObj.LogoId
 
-	-- Container chứa danh sách Tab (Đặt bên dưới Logo bự)
+	-- Container chứa danh sách Tab
 	local TabListContainer = Instance.new("Frame", Sidebar)
 	TabListContainer.Size = UDim2.new(1, -16, 1, -75)
 	TabListContainer.Position = UDim2.new(0, 8, 0, 68)
@@ -165,7 +188,7 @@ function DragonFruitLib:CreateWindow(config)
 	UIList.SortOrder = Enum.SortOrder.LayoutOrder
 	UIList.Padding = UDim.new(0, 6)
 
-	-- Content Area (Nơi hiển thị các nút chức năng)
+	-- Content Area
 	local ContentArea = Instance.new("Frame", MainFrame)
 	ContentArea.Size = UDim2.new(1, -141, 1, -41)
 	ContentArea.Position = UDim2.new(0, 141, 0, 41)
@@ -191,7 +214,6 @@ function DragonFruitLib:CreateTab(tabName)
 	PageList.SortOrder = Enum.SortOrder.LayoutOrder
 	PageList.Padding = UDim.new(0, 8)
 
-	-- Nút Tab (Chỉ chứa chữ, sạch vẽ)
 	local tabBtn = Instance.new("TextButton", window.TabListContainer)
 	tabBtn.Size = UDim2.new(1, 0, 0, 36)
 	tabBtn.BackgroundColor3 = Colors.SidebarUnselected
