@@ -26,7 +26,7 @@ local DragonFruitLib = loadstring(game:HttpGet((https://raw.githubusercontent.co
 
 ```lua
 -- Tải thư viện
-local DragonFruitLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/Merayliewz/DRAGON-FRUIT-LIB/refs/heads/main/dragonfruit%20lib.lua"))()
+local DragonFruitLib = loadstring(game:HttpGet("[https://raw.githubusercontent.com/Merayliewz/DRAGON-FRUIT-LIB/refs/heads/main/dragonfruit%20lib.lua](https://raw.githubusercontent.com/Merayliewz/DRAGON-FRUIT-LIB/refs/heads/main/dragonfruit%20lib.lua)"))()
 
 -- 1. Khởi tạo Cửa sổ
 local Window = DragonFruitLib:CreateWindow({
@@ -34,9 +34,10 @@ local Window = DragonFruitLib:CreateWindow({
     Logo = "rbxassetid://90272501948122" -- ID Asset Logo trái thanh long
 })
 
--- 2. Tạo các Tab
-local MainTab = Window:CreateTab("Trang Chủ")
-local SettingsTab = Window:CreateTab("Cài Đặt")
+-- 2. Tạo các Tab (Hỗ trợ truyền icon emoji trực tiếp ở tham số thứ 2)
+local MainTab = Window:CreateTab("Trang Chủ", "🏠")
+local FarmTab = Window:CreateTab("Auto Farm", "⚔️")
+local SettingsTab = Window:CreateTab("Cài Đặt", "⚙️")
 
 -- 3. Mẫu Nhãn Chữ (Label)
 MainTab:AddLabel("Chào mừng bạn đến với Dragon Fruit Hub!")
@@ -68,6 +69,26 @@ MainTab:AddSlider({
         if game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Character:FindFirstChild("Humanoid") then
             game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Value
         end
+    end
+})
+
+-- 7. Mẫu Menu Thả xuống (Dropdown)
+FarmTab:AddDropdown({
+    Text = "Chọn Vũ Khí",
+    Items = {"Katana", "Melee", "Sword", "Fruit"},
+    Default = "Katana",
+    Callback = function(Selected)
+        print("Đã chọn vũ khí:", Selected)
+    end
+})
+
+-- 8. Mẫu Ô Nhập Văn Bản (TextBox)
+SettingsTab:AddTextBox({
+    Text = "Nhập Webhook",
+    Placeholder = "Dán link webhook vào đây...",
+    Default = "",
+    Callback = function(Text, EnterPressed)
+        print("Nội dung nhập:", Text)
     end
 })
 ```
@@ -130,6 +151,32 @@ Tab:AddSlider({
     Default = 50,  -- Giá trị mặc định
     Callback = function(Value)
         -- Value trả về số nguyên trong khoảng Min-Max
+    end
+})
+```
+
+### Menu Thả Xuống (Dropdown)
+Tạo danh sách lựa chọn dạng thả xuống nổi.
+```lua
+Tab:AddDropdown({
+    Text = "Tên Dropdown",
+    Items = {"Mục 1", "Mục 2"},
+    Default = "Mục 1",
+    Callback = function(Selected)
+        -- Trả về giá trị mục được chọn
+    end
+})
+```
+
+### Ô Nhập Văn Bản (TextBox)
+Tạo khung nhập dữ liệu văn bản tùy chỉnh.
+```lua
+Tab:AddTextBox({
+    Text = "Tên TextBox",
+    Placeholder = "Nhập văn bản...",
+    Default = "",
+    Callback = function(Text, EnterPressed)
+        -- Trả về nội dung chuỗi văn bản
     end
 })
 ```
