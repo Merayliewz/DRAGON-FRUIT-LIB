@@ -423,7 +423,7 @@ function DragonFruitLib:CreateTab(tabName)
 	end
 
 	-- 3. ĐÃ SỬA: DROPDOWN (Hiển thị mượt mà, không bị cắt nội dung)
-	function TabObj:AddDropdown(options)
+		function TabObj:AddDropdown(options)
 		local dropText = options.Text or "Dropdown"
 		local items = options.Items or {}
 		local defaultItem = options.Default or items[1] or ""
@@ -436,13 +436,13 @@ function DragonFruitLib:CreateTab(tabName)
 		local currentChoice = defaultItem
 
 		local visibleCount = math.clamp(#items, 1, maxVisibleItems)
-		local openedHeight = headerHeight + (visibleCount * itemHeight) + 12
+		-- Cho phép trang chứa bật tắt clip để không bị cắt list
+		page.ClipsDescendants = false
 
 		local frame = Instance.new("Frame", page)
 		frame.Name = "Dropdown"
 		frame.Size = UDim2.new(1, -5, 0, headerHeight)
 		frame.BackgroundColor3 = Colors.Background
-		frame.ZIndex = 5
 		AddUICorner(frame, 6)
 		AddUIStroke(frame, Colors.Border)
 
@@ -450,7 +450,6 @@ function DragonFruitLib:CreateTab(tabName)
 		label.Size = UDim2.new(1, -40, 0, headerHeight)
 		label.Position = UDim2.new(0, 12, 0, 0)
 		label.BackgroundTransparency = 1
-		label.ZIndex = 6
 		label.Text = dropText .. ": " .. tostring(currentChoice)
 		label.TextColor3 = Colors.TextMain
 		label.Font = Enum.Font.GothamMedium
@@ -461,21 +460,23 @@ function DragonFruitLib:CreateTab(tabName)
 		arrow.Size = UDim2.new(0, 30, 0, headerHeight)
 		arrow.Position = UDim2.new(1, -35, 0, 0)
 		arrow.BackgroundTransparency = 1
-		arrow.ZIndex = 6
 		arrow.Text = "▼"
 		arrow.TextColor3 = Colors.TextSub
 		arrow.Font = Enum.Font.GothamBold
 		arrow.TextSize = 11
 
+		-- Tạo khung danh sách đè lên trên các thành phần khác bên dưới
 		local listContainer = Instance.new("ScrollingFrame", frame)
-		listContainer.Size = UDim2.new(1, -10, 0, 0)
-		listContainer.Position = UDim2.new(0, 5, 0, headerHeight + 2)
-		listContainer.BackgroundTransparency = 1
+		listContainer.Size = UDim2.new(1, 0, 0, 0)
+		listContainer.Position = UDim2.new(0, 0, 0, headerHeight + 4)
+		listContainer.BackgroundColor3 = Colors.Window
 		listContainer.BorderSizePixel = 0
-		listContainer.ZIndex = 10
+		listContainer.ZIndex = 50
 		listContainer.CanvasSize = UDim2.new(0, 0, 0, #items * itemHeight)
 		listContainer.ScrollBarThickness = 2
 		listContainer.ClipsDescendants = true
+		AddUICorner(listContainer, 6)
+		AddUIStroke(listContainer, Colors.Border)
 
 		local listLayout = Instance.new("UIListLayout", listContainer)
 		listLayout.SortOrder = Enum.SortOrder.LayoutOrder
@@ -485,7 +486,7 @@ function DragonFruitLib:CreateTab(tabName)
 			local itemBtn = Instance.new("TextButton", listContainer)
 			itemBtn.Size = UDim2.new(1, 0, 0, itemHeight)
 			itemBtn.BackgroundColor3 = Colors.SidebarUnselected
-			itemBtn.ZIndex = 11
+			itemBtn.ZIndex = 51
 			itemBtn.Text = tostring(item)
 			itemBtn.TextColor3 = Colors.TextSub
 			itemBtn.Font = Enum.Font.Gotham
@@ -498,12 +499,29 @@ function DragonFruitLib:CreateTab(tabName)
 				label.Text = dropText .. ": " .. tostring(currentChoice)
 				isDropped = false
 				
-				TweenService:Create(frame, TweenInfo.new(0.2), {Size = UDim2.new(1, -5, 0, headerHeight)}):Play()
-				TweenService:Create(listContainer, TweenInfo.new(0.2), {Size = UDim2.new(1, -10, 0, 0)}):Play()
+				TweenService:Create(listContainer, TweenInfo.new(0.2), {Size = UDim2.new(1, 0, 0, 0)}):Play()
 				TweenService:Create(arrow, TweenInfo.new(0.2), {Rotation = 0}):Play()
 				callback(currentChoice)
 			end)
 		end
+
+		local triggerBtn = Instance.new("TextButton", frame)
+		triggerBtn.Size = UDim2.new(1, 0, 0, headerHeight)
+		triggerBtn.BackgroundTransparency = 1
+		triggerBtn.Text = ""
+
+		triggerBtn.MouseButton1Click:Connect(function()
+			isDropped = not isDropped
+
+			TweenService:Create(listContainer, TweenInfo.new(0.25, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {
+				Size = UDim2.new(1, 0, 0, isDropped and (visibleCount * itemHeight + 4) or 0)
+			}):Play()
+
+			TweenService:Create(arrow, TweenInfo.new(0.25), {
+				Rotation = isDropped and 180 or 0
+			}):Play()
+		end)
+	end
 
 		local triggerBtn = Instance.new("TextButton", frame)
 		triggerBtn.Size = UDim2.new(1, 0, 0, headerHeight)
