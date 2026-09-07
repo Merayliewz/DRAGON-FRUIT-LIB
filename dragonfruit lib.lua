@@ -456,7 +456,7 @@ function DragonFruitLib:CreateTab(tabName, iconSymbol)
 		end)
 	end
 
-		function TabObj:AddDropdown(options)
+	function TabObj:AddDropdown(options)
 		local dropText = options.Text or "Dropdown"
 		local items = options.Items or {}
 		local defaultItem = options.Default or items[1] or ""
@@ -469,7 +469,6 @@ function DragonFruitLib:CreateTab(tabName, iconSymbol)
 		local currentChoice = defaultItem
 
 		local visibleCount = math.clamp(#items, 1, maxVisibleItems)
-		-- Cho phép trang chứa bật tắt clip để không bị cắt list
 		page.ClipsDescendants = false
 
 		local frame = Instance.new("Frame", page)
@@ -498,7 +497,6 @@ function DragonFruitLib:CreateTab(tabName, iconSymbol)
 		arrow.Font = Enum.Font.GothamBold
 		arrow.TextSize = 11
 
-		-- Tạo khung danh sách đè lên trên các thành phần khác bên dưới
 		local listContainer = Instance.new("ScrollingFrame", frame)
 		listContainer.Size = UDim2.new(1, 0, 0, 0)
 		listContainer.Position = UDim2.new(0, 0, 0, headerHeight + 4)
