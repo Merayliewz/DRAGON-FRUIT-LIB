@@ -34,7 +34,7 @@ local function AddUIStroke(parent, color)
 end
 
 function DragonFruitLib:CreateWindow(config)
-	local WindowObj = setmetatable({}, BananaLib)
+	local WindowObj = setmetatable({}, DragonFruitLib)
 	WindowObj.TitleText = config.Title or "Dragon Fruit Hub"
 	WindowObj.LogoId = config.Logo or "rbxassetid://90272501948122"
 	WindowObj.Tabs = {}
