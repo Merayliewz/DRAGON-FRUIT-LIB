@@ -15,7 +15,7 @@ Thư viện giao diện (UI Library) hiện đại, mượt mà và nhẹ dành 
 Tải **DragonFruitLib** vào script của bạn thông qua `loadstring`:
 
 ```lua
-local DragonFruitLib = loadstring(game:HttpGet((https://raw.githubusercontent.com/Merayliewz/DRAGON-FRUIT-LIB/refs/heads/main/dragonfruit%20lib.lua"))()
+local DragonFruitLib = loadstring(game:HttpGet(https://raw.githubusercontent.com/Merayliewz/DRAGON-FRUIT-LIB/refs/heads/main/dragonfruit%20lib.lua"))()
 ```
 
 ---
@@ -26,7 +26,7 @@ local DragonFruitLib = loadstring(game:HttpGet((https://raw.githubusercontent.co
 
 ```lua
 -- Tải thư viện
-local DragonFruitLib = loadstring(game:HttpGet("[https://raw.githubusercontent.com/Merayliewz/DRAGON-FRUIT-LIB/refs/heads/main/dragonfruit%20lib.lua](https://raw.githubusercontent.com/Merayliewz/DRAGON-FRUIT-LIB/refs/heads/main/dragonfruit%20lib.lua)"))()
+local DragonFruitLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/Merayliewz/DRAGON-FRUIT-LIB/refs/heads/main/dragonfruit%20lib.lua"))()
 
 -- 1. Khởi tạo Cửa sổ
 local Window = DragonFruitLib:CreateWindow({
