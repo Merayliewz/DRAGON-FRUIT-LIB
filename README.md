@@ -15,7 +15,7 @@ A modern, clean, and lightweight UI library for Roblox script developers inspire
 Load **DragonFruitLib** into your script using `loadstring`:
 
 ```lua
-local DragonFruitLib = loadstring(game:HttpGet("[https://raw.githubusercontent.com/Merayliewz/DRAGON-FRUIT-LIB/refs/heads/main/dragonfruit%20lib.lua](https://raw.githubusercontent.com/Merayliewz/DRAGON-FRUIT-LIB/refs/heads/main/dragonfruit%20lib.lua)"))()
+local DragonFruitLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/Merayliewz/DRAGON-FRUIT-LIB/refs/heads/main/dragonfruit%20lib.lua"))()
 ```
 
 ---
@@ -26,7 +26,7 @@ This example contains every available UI component without skipping any element:
 
 ```lua
 -- Load Library
-local DragonFruitLib = loadstring(game:HttpGet("[https://raw.githubusercontent.com/Merayliewz/DRAGON-FRUIT-LIB/refs/heads/main/dragonfruit%20lib.lua](https://raw.githubusercontent.com/Merayliewz/DRAGON-FRUIT-LIB/refs/heads/main/dragonfruit%20lib.lua)"))()
+local DragonFruitLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/Merayliewz/DRAGON-FRUIT-LIB/refs/heads/main/dragonfruit%20lib.lua"))()
 
 -- 1. Create Window
 local Window = DragonFruitLib:CreateWindow({
@@ -139,7 +139,7 @@ This example contains every available UI component without skipping any element:
 
 ```lua
 -- Load Library
-local DragonFruitLib = loadstring(game:HttpGet("[https://raw.githubusercontent.com/Merayliewz/DRAGON-FRUIT-LIB/refs/heads/main/dragonfruit%20lib.lua](https://raw.githubusercontent.com/Merayliewz/DRAGON-FRUIT-LIB/refs/heads/main/dragonfruit%20lib.lua)"))()
+local DragonFruitLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/Merayliewz/DRAGON-FRUIT-LIB/refs/heads/main/dragonfruit%20lib.lua"))()
 
 -- 1. Create Window
 local Window = DragonFruitLib:CreateWindow({
