@@ -9,9 +9,9 @@ local Window = DragonFruitLib:CreateWindow({
 })
 
 -- Tạo các Tab
-local MainTab = Window:CreateTab("Trang Chủ")
-local FarmTab = Window:CreateTab("Auto Farm")
-local SettingsTab = Window:CreateTab("Cài Đặt")
+local MainTab = Window:CreateTab("Trang Chủ", "🏠") 
+local FarmTab = Window:CreateTab("Auto Farm", "⚔️")
+local SettingsTab = Window:CreateTab("Cài Đặt", "⚙️")
 
 -- Thêm chức năng vào Tab Trang Chủ
 MainTab:AddLabel("Chào mừng bạn đến với Dragon Fruit Hub!")
