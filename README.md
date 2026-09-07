@@ -132,3 +132,30 @@ Tab:AddSlider({
         -- Value returns integer number
     end
 })
+```
+
+### Dropdown
+Creates a floating selection list.
+```lua
+Tab:AddDropdown({
+    Text = "Dropdown Text",
+    Items = {"Option 1", "Option 2"},
+    Default = "Option 1",
+    Callback = function(Selected)
+        -- Returns selected item
+    end
+})
+```
+
+###TextBox
+Creates a text input box.
+```lua
+Tab:AddTextBox({
+    Text = "TextBox Text",
+    Placeholder = "Type here...",
+    Default = "",
+    Callback = function(Text, EnterPressed)
+        -- Returns input string
+    end
+})
+```
