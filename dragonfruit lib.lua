@@ -127,14 +127,14 @@ function DragonFruitLib:CreateWindow(config)
 	local RedButton = dotButtons[1]   -- Nút đỏ
 	local YellowButton = dotButtons[2] -- Nút vàng
 
-	-- 1. Nút Đỏ: Hủy / Xóa sạch hoàn toàn UI khỏi game[span_1](start_span)[span_1](end_span)
+	-- 1. Nút Đỏ: Hủy / Xóa sạch hoàn toàn UI khỏi game
 	RedButton.MouseButton1Click:Connect(function()
 		if ScreenGui then
 			ScreenGui:Destroy()
 		end
 	end)
 
-	-- 2. Nút Vàng: Thu nhỏ / Ẩn hiện khung giao diện chính[span_2](start_span)[span_2](end_span)
+	-- 2. Nút Vàng: Thu nhỏ / Ẩn hiện khung giao diện chính
 	local isMinimized = false
 	YellowButton.MouseButton1Click:Connect(function()
 		isMinimized = not isMinimized
@@ -193,7 +193,7 @@ function DragonFruitLib:CreateWindow(config)
 	return WindowObj
 end
 
-function DragonFruitLib:CreateTab(tabName)
+function DragonFruitLib:CreateTab(tabName, iconSymbol)
 	local TabObj = {}
 	local window = self
 
@@ -208,23 +208,53 @@ function DragonFruitLib:CreateTab(tabName)
 	PageList.SortOrder = Enum.SortOrder.LayoutOrder
 	PageList.Padding = UDim.new(0, 8)
 
+	-- Nút Tab chính trên Sidebar
 	local tabBtn = Instance.new("TextButton", window.TabListContainer)
 	tabBtn.Size = UDim2.new(1, 0, 0, 36)
 	tabBtn.BackgroundColor3 = Colors.SidebarUnselected
-	tabBtn.Text = tabName
-	tabBtn.TextColor3 = Colors.TextSub
-	tabBtn.Font = Enum.Font.GothamMedium
-	tabBtn.TextSize = 13
+	tabBtn.Text = ""
 	tabBtn.AutoButtonColor = false
 	AddUICorner(tabBtn, 8)
+
+	local hasIcon = iconSymbol and iconSymbol ~= ""
+
+	-- Icon dạng ký tự/emoji cho Tab
+	if hasIcon then
+		local tabIcon = Instance.new("TextLabel", tabBtn)
+		tabIcon.Size = UDim2.new(0, 24, 1, 0)
+		tabIcon.Position = UDim2.new(0, 8, 0, 0)
+		tabIcon.BackgroundTransparency = 1
+		tabIcon.Text = iconSymbol
+		tabIcon.TextColor3 = Colors.TextSub
+		tabIcon.Font = Enum.Font.GothamMedium
+		tabIcon.TextSize = 14
+		tabIcon.TextXAlignment = Enum.TextXAlignment.Center
+		TabObj.IconLabel = tabIcon
+	end
+
+	-- Text tên Tab
+	local tabTextLabel = Instance.new("TextLabel", tabBtn)
+	tabTextLabel.Size = UDim2.new(1, hasIcon and -32 or -16, 1, 0)
+	tabTextLabel.Position = UDim2.new(0, hasIcon and 32 or 8, 0, 0)
+	tabTextLabel.BackgroundTransparency = 1
+	tabTextLabel.Text = tabName
+	tabTextLabel.TextColor3 = Colors.TextSub
+	tabTextLabel.Font = Enum.Font.GothamMedium
+	tabTextLabel.TextSize = 13
+	tabTextLabel.TextXAlignment = Enum.TextXAlignment.Left
 
 	local function ActivateTab()
 		for _, t in ipairs(window.Tabs) do
 			t.Page.Visible = false
 			TweenService:Create(t.Button, TweenInfo.new(0.2), {
-				BackgroundColor3 = Colors.SidebarUnselected,
-				TextColor3 = Colors.TextSub
+				BackgroundColor3 = Colors.SidebarUnselected
 			}):Play()
+			
+			for _, child in ipairs(t.Button:GetChildren()) do
+				if child:IsA("TextLabel") then
+					child.TextColor3 = Colors.TextSub
+				end
+			end
 		end
 
 		page.Position = UDim2.new(0, 20, 0, 10)
@@ -236,9 +266,13 @@ function DragonFruitLib:CreateTab(tabName)
 		}):Play()
 
 		TweenService:Create(tabBtn, TweenInfo.new(0.2), {
-			BackgroundColor3 = Colors.Accent,
-			TextColor3 = Colors.TextMain
+			BackgroundColor3 = Colors.Accent
 		}):Play()
+
+		tabTextLabel.TextColor3 = Colors.TextMain
+		if TabObj.IconLabel then
+			TabObj.IconLabel.TextColor3 = Colors.TextMain
+		end
 	end
 
 	tabBtn.MouseEnter:Connect(function()
@@ -422,8 +456,7 @@ function DragonFruitLib:CreateTab(tabName)
 		end)
 	end
 
-	-- 3. ĐÃ SỬA: DROPDOWN (Hiển thị mượt mà, không bị cắt nội dung)
-		function TabObj:AddDropdown(options)
+	function TabObj:AddDropdown(options)
 		local dropText = options.Text or "Dropdown"
 		local items = options.Items or {}
 		local defaultItem = options.Default or items[1] or ""
@@ -436,7 +469,6 @@ function DragonFruitLib:CreateTab(tabName)
 		local currentChoice = defaultItem
 
 		local visibleCount = math.clamp(#items, 1, maxVisibleItems)
-		-- Cho phép trang chứa bật tắt clip để không bị cắt list
 		page.ClipsDescendants = false
 
 		local frame = Instance.new("Frame", page)
@@ -465,7 +497,6 @@ function DragonFruitLib:CreateTab(tabName)
 		arrow.Font = Enum.Font.GothamBold
 		arrow.TextSize = 11
 
-		-- Tạo khung danh sách đè lên trên các thành phần khác bên dưới
 		local listContainer = Instance.new("ScrollingFrame", frame)
 		listContainer.Size = UDim2.new(1, 0, 0, 0)
 		listContainer.Position = UDim2.new(0, 0, 0, headerHeight + 4)
@@ -523,30 +554,6 @@ function DragonFruitLib:CreateTab(tabName)
 		end)
 	end
 
-		local triggerBtn = Instance.new("TextButton", frame)
-		triggerBtn.Size = UDim2.new(1, 0, 0, headerHeight)
-		triggerBtn.BackgroundTransparency = 1
-		triggerBtn.ZIndex = 7
-		triggerBtn.Text = ""
-
-		triggerBtn.MouseButton1Click:Connect(function()
-			isDropped = not isDropped
-
-			TweenService:Create(frame, TweenInfo.new(0.25, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {
-				Size = UDim2.new(1, -5, 0, isDropped and openedHeight or headerHeight)
-			}):Play()
-			
-			TweenService:Create(listContainer, TweenInfo.new(0.25, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {
-				Size = UDim2.new(1, -10, 0, isDropped and (visibleCount * itemHeight) or 0)
-			}):Play()
-
-			TweenService:Create(arrow, TweenInfo.new(0.25), {
-				Rotation = isDropped and 180 or 0
-			}):Play()
-		end)
-	end
-
-	-- 4. TÍNH NĂNG MỚI: TEXTBOX (Ô nhập văn bản tự do)
 	function TabObj:AddTextBox(options)
 		local boxText = options.Text or "TextBox"
 		local placeholder = options.Placeholder or "Nhập ở đây..."
