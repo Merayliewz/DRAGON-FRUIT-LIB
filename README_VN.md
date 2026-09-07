@@ -26,7 +26,7 @@ local DragonFruitLib = loadstring(game:HttpGet((https://raw.githubusercontent.co
 
 ```lua
 -- Tải thư viện
-local DragonFruitLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/YourUsername/YourRepo/main/DragonFruitLib.lua"))()
+local DragonFruitLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/Merayliewz/DRAGON-FRUIT-LIB/refs/heads/main/dragonfruit%20lib.lua"))()
 
 -- 1. Khởi tạo Cửa sổ
 local Window = DragonFruitLib:CreateWindow({
