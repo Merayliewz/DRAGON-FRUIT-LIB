@@ -168,7 +168,7 @@ Tab:AddDropdown({
 })
 ```
 
-###TextBox
+### TextBox
 Creates a text input box.
 ```lua
 Tab:AddTextBox({
