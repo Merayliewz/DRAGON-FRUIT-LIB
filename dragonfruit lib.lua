@@ -60,7 +60,6 @@ function DragonFruitLib:CreateWindow(config)
 		
 	WindowObj.ScreenGui = ScreenGui
 
-	-- Container cho Notifications
 	local NotifContainer = Instance.new("Frame", ScreenGui)
 	NotifContainer.Name = "NotifContainer"
 	NotifContainer.Size = UDim2.new(0, 280, 1, -40)
@@ -73,7 +72,6 @@ function DragonFruitLib:CreateWindow(config)
 	NotifList.VerticalAlignment = Enum.VerticalAlignment.Bottom
 	NotifList.Padding = UDim.new(0, 10)
 
-	-- NĂºt báº­t/táº¯t UI
 	local ToggleBtn = Instance.new("ImageButton", ScreenGui)
 	ToggleBtn.Name = "OpenCloseToggle"
 	ToggleBtn.Size = UDim2.new(0, 46, 0, 46)
@@ -85,7 +83,6 @@ function DragonFruitLib:CreateWindow(config)
 	AddUICorner(ToggleBtn, 23)
 	AddUIStroke(ToggleBtn, Colors.Accent)
 
-	-- Khung chĂ­nh UI
 	local MainFrame = Instance.new("Frame", ScreenGui)
 	MainFrame.Name = "MainFrame"
 	MainFrame.Size = UDim2.new(0, 620, 0, 380)
@@ -98,7 +95,6 @@ function DragonFruitLib:CreateWindow(config)
 	AddUIStroke(MainFrame, Colors.Border)
 	WindowObj.MainFrame = MainFrame
 
-	-- Animation Má»Ÿ / ÄĂ³ng Cá»­a Sá»•
 	local isOpen = true
 	ToggleBtn.MouseButton1Click:Connect(function()
 		isOpen = not isOpen
@@ -120,7 +116,6 @@ function DragonFruitLib:CreateWindow(config)
 		end
 	end)
 
-	-- Header
 	local Header = Instance.new("Frame", MainFrame)
 	Header.Size = UDim2.new(1, 0, 0, 40)
 	Header.BackgroundTransparency = 1
@@ -166,7 +161,6 @@ function DragonFruitLib:CreateWindow(config)
 	HeaderLine.Position = UDim2.new(0, 0, 1, 0)
 	HeaderLine.BackgroundColor3 = Colors.Border
 
-	-- Sidebar
 	local Sidebar = Instance.new("Frame", MainFrame)
 	Sidebar.Size = UDim2.new(0, 140, 1, -41)
 	Sidebar.Position = UDim2.new(0, 0, 0, 41)
@@ -199,13 +193,12 @@ function DragonFruitLib:CreateWindow(config)
 	WindowObj.ContentArea = ContentArea
 	WindowObj.TabListContainer = TabListContainer
 
-	-- TĂNH NÄ‚NG KĂ‰O GIĂƒN THU PHĂ“NG (RESIZE)
 	local ResizeHandle = Instance.new("TextButton", MainFrame)
 	ResizeHandle.Name = "ResizeHandle"
 	ResizeHandle.Size = UDim2.new(0, 15, 0, 15)
 	ResizeHandle.Position = UDim2.new(1, -15, 1, -15)
 	ResizeHandle.BackgroundTransparency = 1
-	ResizeHandle.Text = "â—¢"
+	ResizeHandle.Text = utf8.char(9694)
 	ResizeHandle.TextColor3 = Colors.TextSub
 	ResizeHandle.TextSize = 12
 	ResizeHandle.ZIndex = 100
@@ -236,15 +229,13 @@ function DragonFruitLib:CreateWindow(config)
 		end
 	end)
 
-	-- Hiá»ƒn thá»‹ thĂ´ng bĂ¡o khi UI Ä‘Ă£ táº¡o xong
 	task.spawn(function()
-		WindowObj:Notify("Há»‡ Thá»‘ng", "Giao diá»‡n Ä‘Ă£ táº£i hoĂ n táº¥t!", 4)
+		WindowObj:Notify("He Thong", "Giao dien da tai hoan tat!", 4)
 	end)
 
 	return WindowObj
 end
 
--- TĂNH NÄ‚NG THĂ”NG BĂO (NOTIFICATION)
 function DragonFruitLib:Notify(title, text, duration)
 	duration = duration or 3
 	local notifFrame = Instance.new("Frame", self.NotifContainer)
@@ -279,7 +270,6 @@ function DragonFruitLib:Notify(title, text, duration)
 	descLbl.TextWrapped = true
 	descLbl.TextTransparency = 1
 
-	-- Animation Hiá»‡n
 	TweenService:Create(notifFrame, TweenInfo.new(0.4, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {
 		Position = UDim2.new(0, 0, 0, 0),
 		BackgroundTransparency = 0
@@ -288,7 +278,6 @@ function DragonFruitLib:Notify(title, text, duration)
 	TweenService:Create(titleLbl, TweenInfo.new(0.4), {TextTransparency = 0}):Play()
 	TweenService:Create(descLbl, TweenInfo.new(0.4), {TextTransparency = 0}):Play()
 
-	-- Animation áº¨n
 	task.delay(duration, function()
 		local hideTween = TweenService:Create(notifFrame, TweenInfo.new(0.4, Enum.EasingStyle.Quart, Enum.EasingDirection.In), {
 			Position = UDim2.new(1, 50, 0, 0),
@@ -320,7 +309,6 @@ function DragonFruitLib:CreateTab(tabName, iconSymbol)
 	PageList.SortOrder = Enum.SortOrder.LayoutOrder
 	PageList.Padding = UDim.new(0, 8)
 
-	-- NĂºt Tab chĂ­nh trĂªn Sidebar
 	local tabBtn = Instance.new("TextButton", window.TabListContainer)
 	tabBtn.Size = UDim2.new(1, 0, 0, 36)
 	tabBtn.BackgroundColor3 = Colors.SidebarUnselected
@@ -330,7 +318,6 @@ function DragonFruitLib:CreateTab(tabName, iconSymbol)
 
 	local hasIcon = iconSymbol and iconSymbol ~= ""
 
-	-- Icon dáº¡ng kĂ½ tá»±/emoji cho Tab
 	if hasIcon then
 		local tabIcon = Instance.new("TextLabel", tabBtn)
 		tabIcon.Size = UDim2.new(0, 24, 1, 0)
@@ -344,7 +331,6 @@ function DragonFruitLib:CreateTab(tabName, iconSymbol)
 		TabObj.IconLabel = tabIcon
 	end
 
-	-- Text tĂªn Tab
 	local tabTextLabel = Instance.new("TextLabel", tabBtn)
 	tabTextLabel.Size = UDim2.new(1, hasIcon and -32 or -16, 1, 0)
 	tabTextLabel.Position = UDim2.new(0, hasIcon and 32 or 8, 0, 0)
@@ -604,7 +590,7 @@ function DragonFruitLib:CreateTab(tabName, iconSymbol)
 		arrow.Size = UDim2.new(0, 30, 0, headerHeight)
 		arrow.Position = UDim2.new(1, -35, 0, 0)
 		arrow.BackgroundTransparency = 1
-		arrow.Text = "â–¼"
+		arrow.Text = utf8.char(9660)
 		arrow.TextColor3 = Colors.TextSub
 		arrow.Font = Enum.Font.GothamBold
 		arrow.TextSize = 11
@@ -668,7 +654,7 @@ function DragonFruitLib:CreateTab(tabName, iconSymbol)
 
 	function TabObj:AddTextBox(options)
 		local boxText = options.Text or "TextBox"
-		local placeholder = options.Placeholder or "Nháº­p á»Ÿ Ä‘Ă¢y..."
+		local placeholder = options.Placeholder or "Nhap..."
 		local defaultVal = options.Default or ""
 		local callback = options.Callback or function() end
 
