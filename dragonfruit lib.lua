@@ -1,12 +1,712 @@
---[[
- .____                  ________ ___.    _____                           __                
- |    |    __ _______   \_____  \\_ |___/ ____\_ __  ______ ____ _____ _/  |_  ___________ 
- |    |   |  |  \__  \   /   |   \| __ \   __\  |  \/  ___// ___\\__  \\   __\/  _ \_  __ \
- |    |___|  |  // __ \_/    |    \ \_\ \  | |  |  /\___ \\  \___ / __ \|  | (  <_> )  | \/
- |_______ \____/(____  /\_______  /___  /__| |____//____  >\___  >____  /__|  \____/|__|   
-         \/          \/         \/    \/                \/     \/     \/                   
-          \_Welcome to LuaObfuscator.com   (Alpha 0.10.9) ~  Much Love, Ferib 
+local DragonFruitLib = {}
+DragonFruitLib.__index = DragonFruitLib
 
-]]--
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
+local TweenService = game:GetService("TweenService")
+local UserInputService = game:GetService("UserInputService")
 
-local v0={};v0["DragonFruitLib%0"]={};v0["DragonFruitLib%0"]['__index']=v0["DragonFruitLib%0"];v0["Players%0"]=game:GetService("Players");v0["LocalPlayer%0"]=v0["Players%0"]['LocalPlayer'];v0["PlayerGui%0"]=v0["LocalPlayer%0"]:WaitForChild("PlayerGui");v0["TweenService%0"]=game:GetService("TweenService");v0["UserInputService%0"]=game:GetService("UserInputService");v0["Colors%0"]={Background=Color3.fromRGB(15,15,20),Window=Color3.fromRGB(22,22,28),Border=Color3.fromRGB(45,45,55),TextMain=Color3.fromRGB(255,255,255),TextSub=Color3.fromRGB(150,150,160),Accent=Color3.fromRGB(150,80,250),AccentHover=Color3.fromRGB(170,100,255),SidebarUnselected=Color3.fromRGB(35,35,45),SidebarHover=Color3.fromRGB(50,50,65),Dots={Color3.fromRGB(255,90,90),Color3.fromRGB(255,180,50),Color3.fromRGB(50,200,100)}};local function v8(v10,v11) v0["FlatIdent_24A02%0"]=0;v0["corner%0"]=nil;while true do if (v0["FlatIdent_24A02%0"]==1) then return v0["corner%0"];end if (v0["FlatIdent_24A02%0"]==0) then v0["corner%0"]=Instance.new("UICorner",v10);v0["corner%0"]['CornerRadius']=UDim.new(0,v11);v0["FlatIdent_24A02%0"]=1;end end end local function v9(v14,v15) v0["FlatIdent_89ECE%0"]=0;v0["stroke%0"]=nil;while true do if (v0["FlatIdent_89ECE%0"]==1) then v0["stroke%0"]['Thickness']=1;return v0["stroke%0"];end if (v0["FlatIdent_89ECE%0"]==0) then v0["stroke%0"]=Instance.new("UIStroke",v14);v0["stroke%0"]['Color']=v15;v0["FlatIdent_89ECE%0"]=1;end end end v0["DragonFruitLib%0"].CreateWindow=function(v18,v19) v0["WindowObj%0"]=setmetatable({},v0["DragonFruitLib%0"]);v0["WindowObj%0"]['TitleText']=v19['Title'] or "Dragon Fruit Hub" ;v0["WindowObj%0"]['LogoId']=v19['Logo'] or "rbxassetid://90272501948122" ;v0["WindowObj%0"]['Tabs']={};v0["ScreenGui%0"]=Instance.new("ScreenGui");v0["ScreenGui%0"]['Name']=game:GetService("HttpService"):GenerateGUID(false);v0["ScreenGui%0"]['ResetOnSpawn']=false;if (gethui or (4593<=2672)) then v0["ScreenGui%0"]['Parent']=gethui();elseif ((syn and syn['protect_gui']) or (1168>3156)) then v0["FlatIdent_1743D%0"]=0;while true do if (v0["FlatIdent_1743D%0"]==0) then syn.protect_gui(v0["ScreenGui%0"]);v0["ScreenGui%0"]['Parent']=game:GetService("CoreGui");break;end end else v0["FlatIdent_7366E%0"]=0;v0["success%0"]=nil;v0["_%0"]=nil;while true do if (0==v0["FlatIdent_7366E%0"]) then v0["success%0"],v0["_%0"]=pcall(function() v0["ScreenGui%0"]['Parent']=game:GetService("CoreGui");end);if  not v0["success%0"] then v0["FlatIdent_43862%0"]=0;v0["targetGui%0"]=nil;while true do if (0==v0["FlatIdent_43862%0"]) then v0["targetGui%0"]=((typeof(v0["PlayerGui%0"])~="nil") and v0["PlayerGui%0"]) or game:GetService("Players")['LocalPlayer']:WaitForChild("PlayerGui") ;v0["ScreenGui%0"]['Parent']=v0["targetGui%0"];break;end end end break;end end end v0["WindowObj%0"]['ScreenGui']=v0["ScreenGui%0"];v0["NotifContainer%0"]=Instance.new("Frame",v0["ScreenGui%0"]);v0["NotifContainer%0"]['Name']="NotifContainer";v0["NotifContainer%0"]['Size']=UDim2.new(0,280,1, -40);v0["NotifContainer%0"]['Position']=UDim2.new(1, -300,0,20);v0["NotifContainer%0"]['BackgroundTransparency']=1;v0["WindowObj%0"]['NotifContainer']=v0["NotifContainer%0"];v0["NotifList%0"]=Instance.new("UIListLayout",v0["NotifContainer%0"]);v0["NotifList%0"]['SortOrder']=Enum['SortOrder']['LayoutOrder'];v0["NotifList%0"]['VerticalAlignment']=Enum['VerticalAlignment']['Bottom'];v0["NotifList%0"]['Padding']=UDim.new(0,10);v0["ToggleBtn%0"]=Instance.new("ImageButton",v0["ScreenGui%0"]);v0["ToggleBtn%0"]['Name']="OpenCloseToggle";v0["ToggleBtn%0"]['Size']=UDim2.new(0,46,0,46);v0["ToggleBtn%0"]['Position']=UDim2.new(0,25,0,100);v0["ToggleBtn%0"]['BackgroundColor3']=v0["Colors%0"]['Window'];v0["ToggleBtn%0"]['Image']=v0["WindowObj%0"]['LogoId'];v0["ToggleBtn%0"]['Active']=true;v0["ToggleBtn%0"]['Draggable']=true;v8(v0["ToggleBtn%0"],23);v9(v0["ToggleBtn%0"],v0["Colors%0"].Accent);v0["MainFrame%0"]=Instance.new("Frame",v0["ScreenGui%0"]);v0["MainFrame%0"]['Name']="MainFrame";v0["MainFrame%0"]['Size']=UDim2.new(0,620,0,380);v0["MainFrame%0"]['Position']=UDim2.new(0.5, -310,0.5, -190);v0["MainFrame%0"]['BackgroundColor3']=v0["Colors%0"]['Window'];v0["MainFrame%0"]['Active']=true;v0["MainFrame%0"]['Draggable']=true;v0["MainFrame%0"]['ClipsDescendants']=true;v8(v0["MainFrame%0"],10);v9(v0["MainFrame%0"],v0["Colors%0"].Border);v0["WindowObj%0"]['MainFrame']=v0["MainFrame%0"];v0["isOpen%0"]=true;v0["ToggleBtn%0"]['MouseButton1Click']:Connect(function() v0["FlatIdent_634AF%0"]=0;while true do if (0==v0["FlatIdent_634AF%0"]) then v0["isOpen%0"]= not v0["isOpen%0"];if (v0["isOpen%0"] or (572>4486)) then v0["MainFrame%0"]['Visible']=true;v0["TweenService%0"]:Create(v0["MainFrame%0"],TweenInfo.new(0.35,Enum['EasingStyle'].Quart,Enum['EasingDirection'].Out),{Size=UDim2.new(0,620,0,380),Position=UDim2.new(0.5, -310,0.5, -190)}):Play();else v0["FlatIdent_8F047%0"]=0;v0["tween%0"]=nil;while true do if (v0["FlatIdent_8F047%0"]==0) then v0["tween%0"]=v0["TweenService%0"]:Create(v0["MainFrame%0"],TweenInfo.new(0.25,Enum['EasingStyle'].Quart,Enum['EasingDirection'].In),{Size=UDim2.new(0,0,0,0),Position=UDim2.new(0.5,0,0.5,0)});v0["tween%0"]:Play();v0["FlatIdent_8F047%0"]=1;end if (v0["FlatIdent_8F047%0"]==1) then v0["tween%0"]['Completed']:Connect(function() if  not v0["isOpen%0"] then v0["MainFrame%0"]['Visible']=false;end end);break;end end end break;end end end);v0["Header%0"]=Instance.new("Frame",v0["MainFrame%0"]);v0["Header%0"]['Size']=UDim2.new(1,0,0,40);v0["Header%0"]['BackgroundTransparency']=1;v0["dotButtons%0"]={};for v74,v75 in ipairs(v0["Colors%0"].Dots) do v0["FlatIdent_91608%0"]=0;v0["dot%0"]=nil;while true do if (2==v0["FlatIdent_91608%0"]) then v0["dot%0"]['Text']="";v0["dot%0"]['AutoButtonColor']=false;v0["FlatIdent_91608%0"]=3;end if (v0["FlatIdent_91608%0"]==3) then v8(v0["dot%0"],5);table.insert(v0["dotButtons%0"],v0["dot%0"]);break;end if (v0["FlatIdent_91608%0"]==0) then v0["dot%0"]=Instance.new("TextButton",v0["Header%0"]);v0["dot%0"]['Size']=UDim2.new(0,10,0,10);v0["FlatIdent_91608%0"]=1;end if (v0["FlatIdent_91608%0"]==1) then v0["dot%0"]['Position']=UDim2.new(0,15 + ((v74-1) * 18) ,0,15);v0["dot%0"]['BackgroundColor3']=v75;v0["FlatIdent_91608%0"]=2;end end end v0["RedButton%0"]=v0["dotButtons%0"][1];v0["YellowButton%0"]=v0["dotButtons%0"][2];v0["RedButton%0"]['MouseButton1Click']:Connect(function() if v0["ScreenGui%0"] then v0["ScreenGui%0"]:Destroy();end end);v0["isMinimized%0"]=false;v0["YellowButton%0"]['MouseButton1Click']:Connect(function() v0["FlatIdent_6FA1%0"]=0;while true do if (0==v0["FlatIdent_6FA1%0"]) then v0["isMinimized%0"]= not v0["isMinimized%0"];v0["MainFrame%0"]['Visible']= not v0["isMinimized%0"];break;end end end);v0["TitleLabel%0"]=Instance.new("TextLabel",v0["Header%0"]);v0["TitleLabel%0"]['Size']=UDim2.new(1, -100,1,0);v0["TitleLabel%0"]['Position']=UDim2.new(0,80,0,0);v0["TitleLabel%0"]['BackgroundTransparency']=1;v0["TitleLabel%0"]['Text']=v0["WindowObj%0"]['TitleText'];v0["TitleLabel%0"]['TextColor3']=v0["Colors%0"]['TextSub'];v0["TitleLabel%0"]['Font']=Enum['Font']['GothamBold'];v0["TitleLabel%0"]['TextSize']=13;v0["TitleLabel%0"]['TextXAlignment']=Enum['TextXAlignment']['Center'];v0["WindowObj%0"]['TitleLabel']=v0["TitleLabel%0"];v0["HeaderLine%0"]=Instance.new("Frame",v0["Header%0"]);v0["HeaderLine%0"]['Size']=UDim2.new(1,0,0,1);v0["HeaderLine%0"]['Position']=UDim2.new(0,0,1,0);v0["HeaderLine%0"]['BackgroundColor3']=v0["Colors%0"]['Border'];v0["Sidebar%0"]=Instance.new("Frame",v0["MainFrame%0"]);v0["Sidebar%0"]['Size']=UDim2.new(0,140,1, -41);v0["Sidebar%0"]['Position']=UDim2.new(0,0,0,41);v0["Sidebar%0"]['BackgroundTransparency']=1;v0["SidebarLine%0"]=Instance.new("Frame",v0["Sidebar%0"]);v0["SidebarLine%0"]['Size']=UDim2.new(0,1,1,0);v0["SidebarLine%0"]['Position']=UDim2.new(1,0,0,0);v0["SidebarLine%0"]['BackgroundColor3']=v0["Colors%0"]['Border'];v0["SidebarLogo%0"]=Instance.new("ImageLabel",v0["Sidebar%0"]);v0["SidebarLogo%0"]['Size']=UDim2.new(0,48,0,48);v0["SidebarLogo%0"]['Position']=UDim2.new(0.5, -24,0,10);v0["SidebarLogo%0"]['BackgroundTransparency']=1;v0["SidebarLogo%0"]['Image']=v0["WindowObj%0"]['LogoId'];v0["TabListContainer%0"]=Instance.new("Frame",v0["Sidebar%0"]);v0["TabListContainer%0"]['Size']=UDim2.new(1, -16,1, -75);v0["TabListContainer%0"]['Position']=UDim2.new(0,8,0,68);v0["TabListContainer%0"]['BackgroundTransparency']=1;v0["UIList%0"]=Instance.new("UIListLayout",v0["TabListContainer%0"]);v0["UIList%0"]['SortOrder']=Enum['SortOrder']['LayoutOrder'];v0["UIList%0"]['Padding']=UDim.new(0,6);v0["ContentArea%0"]=Instance.new("Frame",v0["MainFrame%0"]);v0["ContentArea%0"]['Size']=UDim2.new(1, -141,1, -41);v0["ContentArea%0"]['Position']=UDim2.new(0,141,0,41);v0["ContentArea%0"]['BackgroundTransparency']=1;v0["WindowObj%0"]['ContentArea']=v0["ContentArea%0"];v0["WindowObj%0"]['TabListContainer']=v0["TabListContainer%0"];v0["ResizeHandle%0"]=Instance.new("TextButton",v0["MainFrame%0"]);v0["ResizeHandle%0"]['Name']="ResizeHandle";v0["ResizeHandle%0"]['Size']=UDim2.new(0,15,0,15);v0["ResizeHandle%0"]['Position']=UDim2.new(1, -15,1, -15);v0["ResizeHandle%0"]['BackgroundTransparency']=1;v0["ResizeHandle%0"]['Text']="â—¢";v0["ResizeHandle%0"]['TextColor3']=v0["Colors%0"]['TextSub'];v0["ResizeHandle%0"]['TextSize']=12;v0["ResizeHandle%0"]['ZIndex']=100;v0["isResizing%0"]=false;local v47,v48;v0["ResizeHandle%0"]['InputBegan']:Connect(function(v79) if ((v79['UserInputType']==Enum['UserInputType']['MouseButton1']) or (v79['UserInputType']==Enum['UserInputType']['Touch'])) then v0["FlatIdent_2A644%0"]=0;while true do if (v0["FlatIdent_2A644%0"]==1) then v48=v0["MainFrame%0"]['Size'];break;end if (v0["FlatIdent_2A644%0"]==0) then v0["isResizing%0"]=true;v47=v79['Position'];v0["FlatIdent_2A644%0"]=1;end end end end);v0["UserInputService%0"]['InputChanged']:Connect(function(v80) if ((1404==1404) and v0["isResizing%0"] and ((v80['UserInputType']==Enum['UserInputType']['MouseMovement']) or (v80['UserInputType']==Enum['UserInputType']['Touch']))) then v0["FlatIdent_8B272%0"]=0;v0["delta%0"]=nil;v0["newWidth%0"]=nil;v0["newHeight%0"]=nil;while true do if (0==v0["FlatIdent_8B272%0"]) then v0["delta%0"]=v80['Position'] -v47 ;v0["newWidth%0"]=math.clamp(v48['X']['Offset'] + v0["delta%0"]['X'] ,450,1200);v0["FlatIdent_8B272%0"]=1;end if (v0["FlatIdent_8B272%0"]==1) then v0["newHeight%0"]=math.clamp(v48['Y']['Offset'] + v0["delta%0"]['Y'] ,250,800);v0["MainFrame%0"]['Size']=UDim2.new(0,v0["newWidth%0"],0,v0["newHeight%0"]);break;end end end end);v0["UserInputService%0"]['InputEnded']:Connect(function(v81) if ((v81['UserInputType']==Enum['UserInputType']['MouseButton1']) or (v81['UserInputType']==Enum['UserInputType']['Touch'])) then v0["isResizing%0"]=false;end end);task.spawn(function() v0["WindowObj%0"]:Notify("Há»‡ Thá»‘ng","Giao diá»‡n Ä‘Ă£ táº£i hoĂ n táº¥t!",4);end);return v0["WindowObj%0"];end;v0["DragonFruitLib%0"].Notify=function(v49,v50,v51,v52) v0["FlatIdent_61B23%0"]=0;v0["notifFrame%0"]=nil;v0["stroke%0"]=nil;v0["titleLbl%0"]=nil;v0["descLbl%0"]=nil;while true do if (2==v0["FlatIdent_61B23%0"]) then v0["stroke%0"]['Transparency']=1;v0["titleLbl%0"]=Instance.new("TextLabel",v0["notifFrame%0"]);v0["titleLbl%0"]['Size']=UDim2.new(1, -20,0,20);v0["titleLbl%0"]['Position']=UDim2.new(0,10,0,5);v0["FlatIdent_61B23%0"]=3;end if (v0["FlatIdent_61B23%0"]==0) then v52=v52 or 3 ;v0["notifFrame%0"]=Instance.new("Frame",v49.NotifContainer);v0["notifFrame%0"]['Size']=UDim2.new(1,0,0,60);v0["notifFrame%0"]['Position']=UDim2.new(1,50,0,0);v0["FlatIdent_61B23%0"]=1;end if (v0["FlatIdent_61B23%0"]==7) then v0["descLbl%0"]['TextWrapped']=true;v0["descLbl%0"]['TextTransparency']=1;v0["TweenService%0"]:Create(v0["notifFrame%0"],TweenInfo.new(0.4,Enum['EasingStyle'].Quart,Enum['EasingDirection'].Out),{Position=UDim2.new(0,0,0,0),BackgroundTransparency=0}):Play();v0["TweenService%0"]:Create(v0["stroke%0"],TweenInfo.new(0.4),{Transparency=0}):Play();v0["FlatIdent_61B23%0"]=8;end if (v0["FlatIdent_61B23%0"]==4) then v0["titleLbl%0"]['TextSize']=13;v0["titleLbl%0"]['TextXAlignment']=Enum['TextXAlignment']['Left'];v0["titleLbl%0"]['TextTransparency']=1;v0["descLbl%0"]=Instance.new("TextLabel",v0["notifFrame%0"]);v0["FlatIdent_61B23%0"]=5;end if (v0["FlatIdent_61B23%0"]==3) then v0["titleLbl%0"]['BackgroundTransparency']=1;v0["titleLbl%0"]['Text']=v50;v0["titleLbl%0"]['TextColor3']=v0["Colors%0"]['Accent'];v0["titleLbl%0"]['Font']=Enum['Font']['GothamBold'];v0["FlatIdent_61B23%0"]=4;end if (v0["FlatIdent_61B23%0"]==1) then v0["notifFrame%0"]['BackgroundColor3']=v0["Colors%0"]['Window'];v0["notifFrame%0"]['BackgroundTransparency']=1;v8(v0["notifFrame%0"],6);v0["stroke%0"]=v9(v0["notifFrame%0"],v0["Colors%0"].Border);v0["FlatIdent_61B23%0"]=2;end if (v0["FlatIdent_61B23%0"]==6) then v0["descLbl%0"]['TextColor3']=v0["Colors%0"]['TextMain'];v0["descLbl%0"]['Font']=Enum['Font']['Gotham'];v0["descLbl%0"]['TextSize']=12;v0["descLbl%0"]['TextXAlignment']=Enum['TextXAlignment']['Left'];v0["FlatIdent_61B23%0"]=7;end if (v0["FlatIdent_61B23%0"]==5) then v0["descLbl%0"]['Size']=UDim2.new(1, -20,0,25);v0["descLbl%0"]['Position']=UDim2.new(0,10,0,25);v0["descLbl%0"]['BackgroundTransparency']=1;v0["descLbl%0"]['Text']=v51;v0["FlatIdent_61B23%0"]=6;end if (v0["FlatIdent_61B23%0"]==8) then v0["TweenService%0"]:Create(v0["titleLbl%0"],TweenInfo.new(0.4),{TextTransparency=0}):Play();v0["TweenService%0"]:Create(v0["descLbl%0"],TweenInfo.new(0.4),{TextTransparency=0}):Play();task.delay(v52,function() v0["FlatIdent_985A2%0"]=0;v0["hideTween%0"]=nil;while true do if (v0["FlatIdent_985A2%0"]==0) then v0["hideTween%0"]=v0["TweenService%0"]:Create(v0["notifFrame%0"],TweenInfo.new(0.4,Enum['EasingStyle'].Quart,Enum['EasingDirection'].In),{Position=UDim2.new(1,50,0,0),BackgroundTransparency=1});v0["TweenService%0"]:Create(v0["stroke%0"],TweenInfo.new(0.4),{Transparency=1}):Play();v0["FlatIdent_985A2%0"]=1;end if (v0["FlatIdent_985A2%0"]==1) then v0["TweenService%0"]:Create(v0["titleLbl%0"],TweenInfo.new(0.4),{TextTransparency=1}):Play();v0["TweenService%0"]:Create(v0["descLbl%0"],TweenInfo.new(0.4),{TextTransparency=1}):Play();v0["FlatIdent_985A2%0"]=2;end if (v0["FlatIdent_985A2%0"]==2) then v0["hideTween%0"]:Play();v0["hideTween%0"]['Completed']:Connect(function() v0["notifFrame%0"]:Destroy();end);break;end end end);break;end end end;v0["DragonFruitLib%0"].CreateTab=function(v58,v59,v60) v0["TabObj%0"]={};v0["window%0"]=v58;v0["page%0"]=Instance.new("ScrollingFrame",v0["window%0"].ContentArea);v0["page%0"]['Size']=UDim2.new(1, -20,1, -20);v0["page%0"]['Position']=UDim2.new(0,10,0,10);v0["page%0"]['BackgroundTransparency']=1;v0["page%0"]['ScrollBarThickness']=2;v0["page%0"]['Visible']=false;v0["PageList%0"]=Instance.new("UIListLayout",v0["page%0"]);v0["PageList%0"]['SortOrder']=Enum['SortOrder']['LayoutOrder'];v0["PageList%0"]['Padding']=UDim.new(0,8);v0["tabBtn%0"]=Instance.new("TextButton",v0["window%0"].TabListContainer);v0["tabBtn%0"]['Size']=UDim2.new(1,0,0,36);v0["tabBtn%0"]['BackgroundColor3']=v0["Colors%0"]['SidebarUnselected'];v0["tabBtn%0"]['Text']="";v0["tabBtn%0"]['AutoButtonColor']=false;v8(v0["tabBtn%0"],8);v0["hasIcon%0"]=v60 and (v60~="") ;if v0["hasIcon%0"] then v0["tabIcon%0"]=Instance.new("TextLabel",v0["tabBtn%0"]);v0["tabIcon%0"]['Size']=UDim2.new(0,24,1,0);v0["tabIcon%0"]['Position']=UDim2.new(0,8,0,0);v0["tabIcon%0"]['BackgroundTransparency']=1;v0["tabIcon%0"]['Text']=v60;v0["tabIcon%0"]['TextColor3']=v0["Colors%0"]['TextSub'];v0["tabIcon%0"]['Font']=Enum['Font']['GothamMedium'];v0["tabIcon%0"]['TextSize']=14;v0["tabIcon%0"]['TextXAlignment']=Enum['TextXAlignment']['Center'];v0["TabObj%0"]['IconLabel']=v0["tabIcon%0"];end v0["tabTextLabel%0"]=Instance.new("TextLabel",v0["tabBtn%0"]);v0["tabTextLabel%0"]['Size']=UDim2.new(1,(v0["hasIcon%0"] and  -32) or  -16 ,1,0);v0["tabTextLabel%0"]['Position']=UDim2.new(0,(v0["hasIcon%0"] and 32) or 8 ,0,0);v0["tabTextLabel%0"]['BackgroundTransparency']=1;v0["tabTextLabel%0"]['Text']=v59;v0["tabTextLabel%0"]['TextColor3']=v0["Colors%0"]['TextSub'];v0["tabTextLabel%0"]['Font']=Enum['Font']['GothamMedium'];v0["tabTextLabel%0"]['TextSize']=13;v0["tabTextLabel%0"]['TextXAlignment']=Enum['TextXAlignment']['Left'];local function v72() v0["FlatIdent_1B1BA%0"]=0;while true do if (v0["FlatIdent_1B1BA%0"]==2) then v0["TweenService%0"]:Create(v0["page%0"],TweenInfo.new(0.25,Enum['EasingStyle'].Quart,Enum['EasingDirection'].Out),{Position=UDim2.new(0,10,0,10)}):Play();v0["TweenService%0"]:Create(v0["tabBtn%0"],TweenInfo.new(0.2),{BackgroundColor3=v0["Colors%0"]['Accent']}):Play();v0["FlatIdent_1B1BA%0"]=3;end if (v0["FlatIdent_1B1BA%0"]==0) then for v287,v288 in ipairs(v0["window%0"].Tabs) do v0["FlatIdent_7147%0"]=0;while true do if (v0["FlatIdent_7147%0"]==0) then v288['Page']['Visible']=false;v0["TweenService%0"]:Create(v288.Button,TweenInfo.new(0.2),{BackgroundColor3=v0["Colors%0"]['SidebarUnselected']}):Play();v0["FlatIdent_7147%0"]=1;end if (v0["FlatIdent_7147%0"]==1) then for v343,v344 in ipairs(v288['Button']:GetChildren()) do if (v344:IsA("TextLabel") or (3748<2212)) then v344['TextColor3']=v0["Colors%0"]['TextSub'];end end break;end end end v0["page%0"]['Position']=UDim2.new(0,20,0,10);v0["FlatIdent_1B1BA%0"]=1;end if (v0["FlatIdent_1B1BA%0"]==1) then v0["page%0"]['Visible']=true;v0["window%0"]['TitleLabel']['Text']=v0["window%0"]['TitleText']   .. " - "   .. v59 ;v0["FlatIdent_1B1BA%0"]=2;end if (v0["FlatIdent_1B1BA%0"]==3) then v0["tabTextLabel%0"]['TextColor3']=v0["Colors%0"]['TextMain'];if v0["TabObj%0"]['IconLabel'] then v0["TabObj%0"]['IconLabel']['TextColor3']=v0["Colors%0"]['TextMain'];end break;end end end v0["tabBtn%0"]['MouseEnter']:Connect(function() if  not v0["page%0"]['Visible'] then v0["TweenService%0"]:Create(v0["tabBtn%0"],TweenInfo.new(0.2),{BackgroundColor3=v0["Colors%0"]['SidebarHover']}):Play();end end);v0["tabBtn%0"]['MouseLeave']:Connect(function() if ( not v0["page%0"]['Visible'] or (1180==2180)) then v0["TweenService%0"]:Create(v0["tabBtn%0"],TweenInfo.new(0.2),{BackgroundColor3=v0["Colors%0"]['SidebarUnselected']}):Play();end end);v0["tabBtn%0"]['MouseButton1Click']:Connect(v72);v0["TabObj%0"]['Page']=v0["page%0"];v0["TabObj%0"]['Button']=v0["tabBtn%0"];table.insert(v0["window%0"].Tabs,v0["TabObj%0"]);if ( #v0["window%0"]['Tabs']==1) then v72();end v0["TabObj%0"].AddLabel=function(v83,v84) v0["FlatIdent_759F1%0"]=0;v0["label%0"]=nil;while true do if (0==v0["FlatIdent_759F1%0"]) then v0["label%0"]=Instance.new("TextLabel",v0["page%0"]);v0["label%0"]['Size']=UDim2.new(1,0,0,22);v0["FlatIdent_759F1%0"]=1;end if (2==v0["FlatIdent_759F1%0"]) then v0["label%0"]['TextColor3']=v0["Colors%0"]['TextSub'];v0["label%0"]['Font']=Enum['Font']['Gotham'];v0["FlatIdent_759F1%0"]=3;end if (v0["FlatIdent_759F1%0"]==3) then v0["label%0"]['TextSize']=12;v0["label%0"]['TextXAlignment']=Enum['TextXAlignment']['Left'];break;end if (v0["FlatIdent_759F1%0"]==1) then v0["label%0"]['BackgroundTransparency']=1;v0["label%0"]['Text']=v84;v0["FlatIdent_759F1%0"]=2;end end end;v0["TabObj%0"].AddButton=function(v87,v88) v0["FlatIdent_9622C%0"]=0;v0["btnText%0"]=nil;v0["callback%0"]=nil;v0["btn%0"]=nil;while true do if (v0["FlatIdent_9622C%0"]==2) then v0["btn%0"]['TextColor3']=v0["Colors%0"]['TextMain'];v0["btn%0"]['Font']=Enum['Font']['GothamBold'];v0["btn%0"]['TextSize']=13;v0["FlatIdent_9622C%0"]=3;end if (v0["FlatIdent_9622C%0"]==5) then v0["btn%0"]['MouseButton1Click']:Connect(v0["callback%0"]);break;end if (v0["FlatIdent_9622C%0"]==3) then v0["btn%0"]['AutoButtonColor']=false;v8(v0["btn%0"],6);v0["btn%0"]['MouseEnter']:Connect(function() v0["TweenService%0"]:Create(v0["btn%0"],TweenInfo.new(0.2),{BackgroundColor3=v0["Colors%0"]['AccentHover']}):Play();end);v0["FlatIdent_9622C%0"]=4;end if (v0["FlatIdent_9622C%0"]==4) then v0["btn%0"]['MouseLeave']:Connect(function() v0["TweenService%0"]:Create(v0["btn%0"],TweenInfo.new(0.2),{BackgroundColor3=v0["Colors%0"]['Accent']}):Play();end);v0["btn%0"]['MouseButton1Down']:Connect(function() v0["TweenService%0"]:Create(v0["btn%0"],TweenInfo.new(0.1),{Size=UDim2.new(1, -9,0,35)}):Play();end);v0["btn%0"]['MouseButton1Up']:Connect(function() v0["TweenService%0"]:Create(v0["btn%0"],TweenInfo.new(0.1),{Size=UDim2.new(1, -5,0,38)}):Play();end);v0["FlatIdent_9622C%0"]=5;end if (v0["FlatIdent_9622C%0"]==0) then v0["btnText%0"]=v88['Text'] or "Button" ;v0["callback%0"]=v88['Callback'] or function() end ;v0["btn%0"]=Instance.new("TextButton",v0["page%0"]);v0["FlatIdent_9622C%0"]=1;end if (v0["FlatIdent_9622C%0"]==1) then v0["btn%0"]['Size']=UDim2.new(1, -5,0,38);v0["btn%0"]['BackgroundColor3']=v0["Colors%0"]['Accent'];v0["btn%0"]['Text']=v0["btnText%0"];v0["FlatIdent_9622C%0"]=2;end end end;v0["TabObj%0"].AddToggle=function(v93,v94) v0["toggleText%0"]=v94['Text'] or "Toggle" ;v0["defaultState%0"]=v94['Default'] or false ;v0["callback%0"]=v94['Callback'] or function() end ;v0["frame%0"]=Instance.new("Frame",v0["page%0"]);v0["frame%0"]['Size']=UDim2.new(1, -5,0,38);v0["frame%0"]['BackgroundColor3']=v0["Colors%0"]['Background'];v8(v0["frame%0"],6);v9(v0["frame%0"],v0["Colors%0"].Border);v0["label%0"]=Instance.new("TextLabel",v0["frame%0"]);v0["label%0"]['Size']=UDim2.new(1, -65,1,0);v0["label%0"]['Position']=UDim2.new(0,12,0,0);v0["label%0"]['BackgroundTransparency']=1;v0["label%0"]['Text']=v0["toggleText%0"];v0["label%0"]['TextColor3']=v0["Colors%0"]['TextMain'];v0["label%0"]['Font']=Enum['Font']['GothamMedium'];v0["label%0"]['TextSize']=13;v0["label%0"]['TextXAlignment']=Enum['TextXAlignment']['Left'];v0["btn%0"]=Instance.new("TextButton",v0["frame%0"]);v0["btn%0"]['Size']=UDim2.new(0,44,0,22);v0["btn%0"]['Position']=UDim2.new(1, -52,0.5, -11);v0["btn%0"]['BackgroundColor3']=(v0["defaultState%0"] and v0["Colors%0"]['Accent']) or v0["Colors%0"]['SidebarUnselected'] ;v0["btn%0"]['Text']="";v0["btn%0"]['AutoButtonColor']=false;v8(v0["btn%0"],11);v0["dot%0"]=Instance.new("Frame",v0["btn%0"]);v0["dot%0"]['Size']=UDim2.new(0,16,0,16);v0["dot%0"]['Position']=UDim2.new(0,(v0["defaultState%0"] and 24) or 4 ,0,3);v0["dot%0"]['BackgroundColor3']=v0["Colors%0"]['TextMain'];v8(v0["dot%0"],8);v0["state%0"]=v0["defaultState%0"];v0["btn%0"]['MouseButton1Click']:Connect(function() v0["FlatIdent_1BAD7%0"]=0;while true do if (v0["FlatIdent_1BAD7%0"]==0) then v0["state%0"]= not v0["state%0"];v0["TweenService%0"]:Create(v0["btn%0"],TweenInfo.new(0.2),{BackgroundColor3=(v0["state%0"] and v0["Colors%0"]['Accent']) or v0["Colors%0"]['SidebarUnselected'] }):Play();v0["FlatIdent_1BAD7%0"]=1;end if (v0["FlatIdent_1BAD7%0"]==1) then v0["TweenService%0"]:Create(v0["dot%0"],TweenInfo.new(0.2),{Position=UDim2.new(0,(v0["state%0"] and 24) or 4 ,0,3)}):Play();v0["callback%0"](v0["state%0"]);break;end end end);end;v0["TabObj%0"].AddSlider=function(v106,v107) v0["FlatIdent_68E92%0"]=0;v0["sliderText%0"]=nil;v0["min%0"]=nil;v0["max%0"]=nil;v0["default%0"]=nil;v0["callback%0"]=nil;v0["frame%0"]=nil;v0["label%0"]=nil;v0["valLabel%0"]=nil;v0["sliderBar%0"]=nil;v0["sliderFill%0"]=nil;v0["dragging%0"]=nil;v0["UpdateSlider%0"]=nil;while true do if (v0["FlatIdent_68E92%0"]==4) then v0["valLabel%0"]['TextColor3']=v0["Colors%0"]['Accent'];v0["valLabel%0"]['Font']=Enum['Font']['GothamBold'];v0["valLabel%0"]['TextSize']=13;v0["sliderBar%0"]=Instance.new("Frame",v0["frame%0"]);v0["sliderBar%0"]['Size']=UDim2.new(1, -24,0,6);v0["sliderBar%0"]['Position']=UDim2.new(0,12,0,32);v0["FlatIdent_68E92%0"]=5;end if (v0["FlatIdent_68E92%0"]==0) then v0["sliderText%0"]=v107['Text'] or "Slider" ;v0["min%0"]=v107['Min'] or 0 ;v0["max%0"]=v107['Max'] or 100 ;v0["default%0"]=v107['Default'] or v0["min%0"] ;v0["callback%0"]=v107['Callback'] or function() end ;v0["frame%0"]=Instance.new("Frame",v0["page%0"]);v0["FlatIdent_68E92%0"]=1;end if (6==v0["FlatIdent_68E92%0"]) then v0["dragging%0"]=false;v0["UpdateSlider%0"]=nil;v0["UpdateSlider%0"]=function(v292) v0["FlatIdent_14454%0"]=0;v0["pos%0"]=nil;v0["value%0"]=nil;while true do if (v0["FlatIdent_14454%0"]==2) then v0["callback%0"](v0["value%0"]);break;end if (v0["FlatIdent_14454%0"]==0) then v0["pos%0"]=math.clamp((v292['Position']['X'] -v0["sliderBar%0"]['AbsolutePosition']['X'])/v0["sliderBar%0"]['AbsoluteSize']['X'] ,0,1);v0["value%0"]=math.floor(v0["min%0"] + ((v0["max%0"] -v0["min%0"]) * v0["pos%0"]) );v0["FlatIdent_14454%0"]=1;end if (v0["FlatIdent_14454%0"]==1) then v0["valLabel%0"]['Text']=tostring(v0["value%0"]);v0["TweenService%0"]:Create(v0["sliderFill%0"],TweenInfo.new(0.05),{Size=UDim2.new(v0["pos%0"],0,1,0)}):Play();v0["FlatIdent_14454%0"]=2;end end end;v0["sliderBar%0"]['InputBegan']:Connect(function(v296) if ((4090<4653) and ((v296['UserInputType']==Enum['UserInputType']['MouseButton1']) or (v296['UserInputType']==Enum['UserInputType']['Touch']))) then v0["FlatIdent_19F98%0"]=0;while true do if (v0["FlatIdent_19F98%0"]==0) then v0["dragging%0"]=true;v0["UpdateSlider%0"](v296);break;end end end end);v0["UserInputService%0"]['InputEnded']:Connect(function(v297) if ((v297['UserInputType']==Enum['UserInputType']['MouseButton1']) or (v297['UserInputType']==Enum['UserInputType']['Touch']) or (2652<196)) then v0["dragging%0"]=false;end end);v0["UserInputService%0"]['InputChanged']:Connect(function(v298) if ((4135<4817) and v0["dragging%0"] and ((v298['UserInputType']==Enum['UserInputType']['MouseMovement']) or (v298['UserInputType']==Enum['UserInputType']['Touch']))) then v0["UpdateSlider%0"](v298);end end);break;end if (v0["FlatIdent_68E92%0"]==3) then v0["label%0"]['TextXAlignment']=Enum['TextXAlignment']['Left'];v0["valLabel%0"]=Instance.new("TextLabel",v0["frame%0"]);v0["valLabel%0"]['Size']=UDim2.new(0,50,0,22);v0["valLabel%0"]['Position']=UDim2.new(1, -60,0,2);v0["valLabel%0"]['BackgroundTransparency']=1;v0["valLabel%0"]['Text']=tostring(v0["default%0"]);v0["FlatIdent_68E92%0"]=4;end if (v0["FlatIdent_68E92%0"]==5) then v0["sliderBar%0"]['BackgroundColor3']=v0["Colors%0"]['SidebarUnselected'];v8(v0["sliderBar%0"],3);v0["sliderFill%0"]=Instance.new("Frame",v0["sliderBar%0"]);v0["sliderFill%0"]['Size']=UDim2.new((v0["default%0"] -v0["min%0"])/(v0["max%0"] -v0["min%0"]) ,0,1,0);v0["sliderFill%0"]['BackgroundColor3']=v0["Colors%0"]['Accent'];v8(v0["sliderFill%0"],3);v0["FlatIdent_68E92%0"]=6;end if (v0["FlatIdent_68E92%0"]==2) then v0["label%0"]['Position']=UDim2.new(0,12,0,2);v0["label%0"]['BackgroundTransparency']=1;v0["label%0"]['Text']=v0["sliderText%0"];v0["label%0"]['TextColor3']=v0["Colors%0"]['TextMain'];v0["label%0"]['Font']=Enum['Font']['GothamMedium'];v0["label%0"]['TextSize']=13;v0["FlatIdent_68E92%0"]=3;end if (v0["FlatIdent_68E92%0"]==1) then v0["frame%0"]['Size']=UDim2.new(1, -5,0,48);v0["frame%0"]['BackgroundColor3']=v0["Colors%0"]['Background'];v8(v0["frame%0"],6);v9(v0["frame%0"],v0["Colors%0"].Border);v0["label%0"]=Instance.new("TextLabel",v0["frame%0"]);v0["label%0"]['Size']=UDim2.new(1, -60,0,22);v0["FlatIdent_68E92%0"]=2;end end end;v0["TabObj%0"].AddDropdown=function(v121,v122) v0["dropText%0"]=v122['Text'] or "Dropdown" ;v0["items%0"]=v122['Items'] or {} ;v0["defaultItem%0"]=v122['Default'] or v0["items%0"][1] or "" ;v0["callback%0"]=v122['Callback'] or function() end ;v0["isDropped%0"]=false;v0["headerHeight%0"]=38;v0["itemHeight%0"]=32;v0["maxVisibleItems%0"]=4;v0["currentChoice%0"]=v0["defaultItem%0"];v0["visibleCount%0"]=math.clamp( #v0["items%0"],1,v0["maxVisibleItems%0"]);v0["page%0"]['ClipsDescendants']=false;v0["frame%0"]=Instance.new("Frame",v0["page%0"]);v0["frame%0"]['Name']="Dropdown";v0["frame%0"]['Size']=UDim2.new(1, -5,0,v0["headerHeight%0"]);v0["frame%0"]['BackgroundColor3']=v0["Colors%0"]['Background'];v8(v0["frame%0"],6);v9(v0["frame%0"],v0["Colors%0"].Border);v0["label%0"]=Instance.new("TextLabel",v0["frame%0"]);v0["label%0"]['Size']=UDim2.new(1, -40,0,v0["headerHeight%0"]);v0["label%0"]['Position']=UDim2.new(0,12,0,0);v0["label%0"]['BackgroundTransparency']=1;v0["label%0"]['Text']=v0["dropText%0"]   .. ": "   .. tostring(v0["currentChoice%0"]) ;v0["label%0"]['TextColor3']=v0["Colors%0"]['TextMain'];v0["label%0"]['Font']=Enum['Font']['GothamMedium'];v0["label%0"]['TextSize']=13;v0["label%0"]['TextXAlignment']=Enum['TextXAlignment']['Left'];v0["arrow%0"]=Instance.new("TextLabel",v0["frame%0"]);v0["arrow%0"]['Size']=UDim2.new(0,30,0,v0["headerHeight%0"]);v0["arrow%0"]['Position']=UDim2.new(1, -35,0,0);v0["arrow%0"]['BackgroundTransparency']=1;v0["arrow%0"]['Text']="â–¼";v0["arrow%0"]['TextColor3']=v0["Colors%0"]['TextSub'];v0["arrow%0"]['Font']=Enum['Font']['GothamBold'];v0["arrow%0"]['TextSize']=11;v0["listContainer%0"]=Instance.new("ScrollingFrame",v0["frame%0"]);v0["listContainer%0"]['Size']=UDim2.new(1,0,0,0);v0["listContainer%0"]['Position']=UDim2.new(0,0,0,v0["headerHeight%0"] + 4 );v0["listContainer%0"]['BackgroundColor3']=v0["Colors%0"]['Window'];v0["listContainer%0"]['BorderSizePixel']=0;v0["listContainer%0"]['ZIndex']=50;v0["listContainer%0"]['CanvasSize']=UDim2.new(0,0,0, #v0["items%0"] * v0["itemHeight%0"] );v0["listContainer%0"]['ScrollBarThickness']=2;v0["listContainer%0"]['ClipsDescendants']=true;v8(v0["listContainer%0"],6);v9(v0["listContainer%0"],v0["Colors%0"].Border);v0["listLayout%0"]=Instance.new("UIListLayout",v0["listContainer%0"]);v0["listLayout%0"]['SortOrder']=Enum['SortOrder']['LayoutOrder'];v0["listLayout%0"]['Padding']=UDim.new(0,2);for v165,v166 in ipairs(v0["items%0"]) do v0["FlatIdent_FA88%0"]=0;v0["itemBtn%0"]=nil;while true do if (v0["FlatIdent_FA88%0"]==2) then v0["itemBtn%0"]['Font']=Enum['Font']['Gotham'];v0["itemBtn%0"]['TextSize']=12;v0["itemBtn%0"]['AutoButtonColor']=false;v0["FlatIdent_FA88%0"]=3;end if (v0["FlatIdent_FA88%0"]==3) then v8(v0["itemBtn%0"],4);v0["itemBtn%0"]['MouseButton1Click']:Connect(function() v0["FlatIdent_1CFC3%0"]=0;while true do if (v0["FlatIdent_1CFC3%0"]==2) then v0["TweenService%0"]:Create(v0["arrow%0"],TweenInfo.new(0.2),{Rotation=0}):Play();v0["callback%0"](v0["currentChoice%0"]);break;end if (v0["FlatIdent_1CFC3%0"]==0) then v0["currentChoice%0"]=v166;v0["label%0"]['Text']=v0["dropText%0"]   .. ": "   .. tostring(v0["currentChoice%0"]) ;v0["FlatIdent_1CFC3%0"]=1;end if (v0["FlatIdent_1CFC3%0"]==1) then v0["isDropped%0"]=false;v0["TweenService%0"]:Create(v0["listContainer%0"],TweenInfo.new(0.2),{Size=UDim2.new(1,0,0,0)}):Play();v0["FlatIdent_1CFC3%0"]=2;end end end);break;end if (v0["FlatIdent_FA88%0"]==0) then v0["itemBtn%0"]=Instance.new("TextButton",v0["listContainer%0"]);v0["itemBtn%0"]['Size']=UDim2.new(1,0,0,v0["itemHeight%0"]);v0["itemBtn%0"]['BackgroundColor3']=v0["Colors%0"]['SidebarUnselected'];v0["FlatIdent_FA88%0"]=1;end if (v0["FlatIdent_FA88%0"]==1) then v0["itemBtn%0"]['ZIndex']=51;v0["itemBtn%0"]['Text']=tostring(v166);v0["itemBtn%0"]['TextColor3']=v0["Colors%0"]['TextSub'];v0["FlatIdent_FA88%0"]=2;end end end v0["triggerBtn%0"]=Instance.new("TextButton",v0["frame%0"]);v0["triggerBtn%0"]['Size']=UDim2.new(1,0,0,v0["headerHeight%0"]);v0["triggerBtn%0"]['BackgroundTransparency']=1;v0["triggerBtn%0"]['Text']="";v0["triggerBtn%0"]['MouseButton1Click']:Connect(function() v0["isDropped%0"]= not v0["isDropped%0"];v0["TweenService%0"]:Create(v0["listContainer%0"],TweenInfo.new(0.25,Enum['EasingStyle'].Quart,Enum['EasingDirection'].Out),{Size=UDim2.new(1,0,0,(v0["isDropped%0"] and ((v0["visibleCount%0"] * v0["itemHeight%0"]) + 4)) or 0 )}):Play();v0["TweenService%0"]:Create(v0["arrow%0"],TweenInfo.new(0.25),{Rotation=(v0["isDropped%0"] and 180) or 0 }):Play();end);end;v0["TabObj%0"].AddTextBox=function(v145,v146) v0["boxText%0"]=v146['Text'] or "TextBox" ;v0["placeholder%0"]=v146['Placeholder'] or "Nháº­p á»Ÿ Ä‘Ă¢y..." ;v0["defaultVal%0"]=v146['Default'] or "" ;v0["callback%0"]=v146['Callback'] or function() end ;v0["frame%0"]=Instance.new("Frame",v0["page%0"]);v0["frame%0"]['Size']=UDim2.new(1, -5,0,48);v0["frame%0"]['BackgroundColor3']=v0["Colors%0"]['Background'];v8(v0["frame%0"],6);v9(v0["frame%0"],v0["Colors%0"].Border);v0["label%0"]=Instance.new("TextLabel",v0["frame%0"]);v0["label%0"]['Size']=UDim2.new(1, -24,0,18);v0["label%0"]['Position']=UDim2.new(0,12,0,4);v0["label%0"]['BackgroundTransparency']=1;v0["label%0"]['Text']=v0["boxText%0"];v0["label%0"]['TextColor3']=v0["Colors%0"]['TextSub'];v0["label%0"]['Font']=Enum['Font']['GothamMedium'];v0["label%0"]['TextSize']=12;v0["label%0"]['TextXAlignment']=Enum['TextXAlignment']['Left'];v0["textBox%0"]=Instance.new("TextBox",v0["frame%0"]);v0["textBox%0"]['Size']=UDim2.new(1, -24,0,20);v0["textBox%0"]['Position']=UDim2.new(0,12,0,24);v0["textBox%0"]['BackgroundColor3']=v0["Colors%0"]['SidebarUnselected'];v0["textBox%0"]['Text']=v0["defaultVal%0"];v0["textBox%0"]['PlaceholderText']=v0["placeholder%0"];v0["textBox%0"]['TextColor3']=v0["Colors%0"]['TextMain'];v0["textBox%0"]['PlaceholderColor3']=Color3.fromRGB(100,100,110);v0["textBox%0"]['Font']=Enum['Font']['Gotham'];v0["textBox%0"]['TextSize']=12;v0["textBox%0"]['ClearTextOnFocus']=false;v8(v0["textBox%0"],4);v0["textBox%0"]['FocusLost']:Connect(function(v170) v0["callback%0"](v0["textBox%0"].Text,v170);end);end;return v0["TabObj%0"];end;return v0["DragonFruitLib%0"];
+local Colors = {
+	Background = Color3.fromRGB(15, 15, 20),
+	Window = Color3.fromRGB(22, 22, 28),
+	Border = Color3.fromRGB(45, 45, 55),
+	TextMain = Color3.fromRGB(255, 255, 255),
+	TextSub = Color3.fromRGB(150, 150, 160),
+	Accent = Color3.fromRGB(150, 80, 250),
+	AccentHover = Color3.fromRGB(170, 100, 255),
+	SidebarUnselected = Color3.fromRGB(35, 35, 45),
+	SidebarHover = Color3.fromRGB(50, 50, 65),
+	Dots = {Color3.fromRGB(255, 90, 90), Color3.fromRGB(255, 180, 50), Color3.fromRGB(50, 200, 100)}
+}
+
+local function AddUICorner(parent, radius)
+	local corner = Instance.new("UICorner", parent)
+	corner.CornerRadius = UDim.new(0, radius)
+	return corner
+end
+
+local function AddUIStroke(parent, color)
+	local stroke = Instance.new("UIStroke", parent)
+	stroke.Color = color
+	stroke.Thickness = 1
+	return stroke
+end
+
+function DragonFruitLib:CreateWindow(config)
+	local WindowObj = setmetatable({}, DragonFruitLib)
+	WindowObj.TitleText = config.Title or "Dragon Fruit Hub"
+	WindowObj.LogoId = config.Logo or "rbxassetid://90272501948122"
+	WindowObj.Tabs = {}
+
+	local ScreenGui = Instance.new("ScreenGui")
+	ScreenGui.Name = game:GetService("HttpService"):GenerateGUID(false)
+	ScreenGui.ResetOnSpawn = false
+
+	if gethui then
+		ScreenGui.Parent = gethui()
+	elseif syn and syn.protect_gui then
+		syn.protect_gui(ScreenGui)
+		ScreenGui.Parent = game:GetService("CoreGui")
+	else
+		local success, _ = pcall(function()
+				ScreenGui.Parent = game:GetService("CoreGui")
+		end)
+		if not success then
+			local targetGui = (typeof(PlayerGui) ~= "nil" and PlayerGui) or game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui")
+			ScreenGui.Parent = targetGui
+		end	
+	end
+		
+	WindowObj.ScreenGui = ScreenGui
+
+	-- Container cho Notifications
+	local NotifContainer = Instance.new("Frame", ScreenGui)
+	NotifContainer.Name = "NotifContainer"
+	NotifContainer.Size = UDim2.new(0, 280, 1, -40)
+	NotifContainer.Position = UDim2.new(1, -300, 0, 20)
+	NotifContainer.BackgroundTransparency = 1
+	WindowObj.NotifContainer = NotifContainer
+
+	local NotifList = Instance.new("UIListLayout", NotifContainer)
+	NotifList.SortOrder = Enum.SortOrder.LayoutOrder
+	NotifList.VerticalAlignment = Enum.VerticalAlignment.Bottom
+	NotifList.Padding = UDim.new(0, 10)
+
+	-- NĂºt báº­t/táº¯t UI
+	local ToggleBtn = Instance.new("ImageButton", ScreenGui)
+	ToggleBtn.Name = "OpenCloseToggle"
+	ToggleBtn.Size = UDim2.new(0, 46, 0, 46)
+	ToggleBtn.Position = UDim2.new(0, 25, 0, 100)
+	ToggleBtn.BackgroundColor3 = Colors.Window
+	ToggleBtn.Image = WindowObj.LogoId
+	ToggleBtn.Active = true
+	ToggleBtn.Draggable = true
+	AddUICorner(ToggleBtn, 23)
+	AddUIStroke(ToggleBtn, Colors.Accent)
+
+	-- Khung chĂ­nh UI
+	local MainFrame = Instance.new("Frame", ScreenGui)
+	MainFrame.Name = "MainFrame"
+	MainFrame.Size = UDim2.new(0, 620, 0, 380)
+	MainFrame.Position = UDim2.new(0.5, -310, 0.5, -190)
+	MainFrame.BackgroundColor3 = Colors.Window
+	MainFrame.Active = true
+	MainFrame.Draggable = true
+	MainFrame.ClipsDescendants = true
+	AddUICorner(MainFrame, 10)
+	AddUIStroke(MainFrame, Colors.Border)
+	WindowObj.MainFrame = MainFrame
+
+	-- Animation Má»Ÿ / ÄĂ³ng Cá»­a Sá»•
+	local isOpen = true
+	ToggleBtn.MouseButton1Click:Connect(function()
+		isOpen = not isOpen
+		if isOpen then
+			MainFrame.Visible = true
+			TweenService:Create(MainFrame, TweenInfo.new(0.35, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {
+				Size = UDim2.new(0, 620, 0, 380),
+				Position = UDim2.new(0.5, -310, 0.5, -190)
+			}):Play()
+		else
+			local tween = TweenService:Create(MainFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quart, Enum.EasingDirection.In), {
+				Size = UDim2.new(0, 0, 0, 0),
+				Position = UDim2.new(0.5, 0, 0.5, 0)
+			})
+			tween:Play()
+			tween.Completed:Connect(function()
+				if not isOpen then MainFrame.Visible = false end
+			end)
+		end
+	end)
+
+	-- Header
+	local Header = Instance.new("Frame", MainFrame)
+	Header.Size = UDim2.new(1, 0, 0, 40)
+	Header.BackgroundTransparency = 1
+
+	local dotButtons = {}
+	for i, color in ipairs(Colors.Dots) do
+		local dot = Instance.new("TextButton", Header)
+		dot.Size = UDim2.new(0, 10, 0, 10)
+		dot.Position = UDim2.new(0, 15 + (i - 1) * 18, 0, 15)
+		dot.BackgroundColor3 = color
+		dot.Text = ""
+		dot.AutoButtonColor = false
+		AddUICorner(dot, 5)
+		table.insert(dotButtons, dot)
+	end
+
+	local RedButton = dotButtons[1]
+	local YellowButton = dotButtons[2]
+
+	RedButton.MouseButton1Click:Connect(function()
+		if ScreenGui then ScreenGui:Destroy() end
+	end)
+
+	local isMinimized = false
+	YellowButton.MouseButton1Click:Connect(function()
+		isMinimized = not isMinimized
+		MainFrame.Visible = not isMinimized
+	end)
+
+	local TitleLabel = Instance.new("TextLabel", Header)
+	TitleLabel.Size = UDim2.new(1, -100, 1, 0)
+	TitleLabel.Position = UDim2.new(0, 80, 0, 0)
+	TitleLabel.BackgroundTransparency = 1
+	TitleLabel.Text = WindowObj.TitleText
+	TitleLabel.TextColor3 = Colors.TextSub
+	TitleLabel.Font = Enum.Font.GothamBold
+	TitleLabel.TextSize = 13
+	TitleLabel.TextXAlignment = Enum.TextXAlignment.Center
+	WindowObj.TitleLabel = TitleLabel
+
+	local HeaderLine = Instance.new("Frame", Header)
+	HeaderLine.Size = UDim2.new(1, 0, 0, 1)
+	HeaderLine.Position = UDim2.new(0, 0, 1, 0)
+	HeaderLine.BackgroundColor3 = Colors.Border
+
+	-- Sidebar
+	local Sidebar = Instance.new("Frame", MainFrame)
+	Sidebar.Size = UDim2.new(0, 140, 1, -41)
+	Sidebar.Position = UDim2.new(0, 0, 0, 41)
+	Sidebar.BackgroundTransparency = 1
+
+	local SidebarLine = Instance.new("Frame", Sidebar)
+	SidebarLine.Size = UDim2.new(0, 1, 1, 0)
+	SidebarLine.Position = UDim2.new(1, 0, 0, 0)
+	SidebarLine.BackgroundColor3 = Colors.Border
+
+	local SidebarLogo = Instance.new("ImageLabel", Sidebar)
+	SidebarLogo.Size = UDim2.new(0, 48, 0, 48)
+	SidebarLogo.Position = UDim2.new(0.5, -24, 0, 10)
+	SidebarLogo.BackgroundTransparency = 1
+	SidebarLogo.Image = WindowObj.LogoId
+
+	local TabListContainer = Instance.new("Frame", Sidebar)
+	TabListContainer.Size = UDim2.new(1, -16, 1, -75)
+	TabListContainer.Position = UDim2.new(0, 8, 0, 68)
+	TabListContainer.BackgroundTransparency = 1
+
+	local UIList = Instance.new("UIListLayout", TabListContainer)
+	UIList.SortOrder = Enum.SortOrder.LayoutOrder
+	UIList.Padding = UDim.new(0, 6)
+
+	local ContentArea = Instance.new("Frame", MainFrame)
+	ContentArea.Size = UDim2.new(1, -141, 1, -41)
+	ContentArea.Position = UDim2.new(0, 141, 0, 41)
+	ContentArea.BackgroundTransparency = 1
+	WindowObj.ContentArea = ContentArea
+	WindowObj.TabListContainer = TabListContainer
+
+	-- TĂNH NÄ‚NG KĂ‰O GIĂƒN THU PHĂ“NG (RESIZE)
+	local ResizeHandle = Instance.new("TextButton", MainFrame)
+	ResizeHandle.Name = "ResizeHandle"
+	ResizeHandle.Size = UDim2.new(0, 15, 0, 15)
+	ResizeHandle.Position = UDim2.new(1, -15, 1, -15)
+	ResizeHandle.BackgroundTransparency = 1
+	ResizeHandle.Text = "â—¢"
+	ResizeHandle.TextColor3 = Colors.TextSub
+	ResizeHandle.TextSize = 12
+	ResizeHandle.ZIndex = 100
+
+	local isResizing = false
+	local dragStart, startSize
+
+	ResizeHandle.InputBegan:Connect(function(input)
+		if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+			isResizing = true
+			dragStart = input.Position
+			startSize = MainFrame.Size
+		end
+	end)
+
+	UserInputService.InputChanged:Connect(function(input)
+		if isResizing and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
+			local delta = input.Position - dragStart
+			local newWidth = math.clamp(startSize.X.Offset + delta.X, 450, 1200)
+			local newHeight = math.clamp(startSize.Y.Offset + delta.Y, 250, 800)
+			MainFrame.Size = UDim2.new(0, newWidth, 0, newHeight)
+		end
+	end)
+
+	UserInputService.InputEnded:Connect(function(input)
+		if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+			isResizing = false
+		end
+	end)
+
+	-- Hiá»ƒn thá»‹ thĂ´ng bĂ¡o khi UI Ä‘Ă£ táº¡o xong
+	task.spawn(function()
+		WindowObj:Notify("Há»‡ Thá»‘ng", "Giao diá»‡n Ä‘Ă£ táº£i hoĂ n táº¥t!", 4)
+	end)
+
+	return WindowObj
+end
+
+-- TĂNH NÄ‚NG THĂ”NG BĂO (NOTIFICATION)
+function DragonFruitLib:Notify(title, text, duration)
+	duration = duration or 3
+	local notifFrame = Instance.new("Frame", self.NotifContainer)
+	notifFrame.Size = UDim2.new(1, 0, 0, 60)
+	notifFrame.Position = UDim2.new(1, 50, 0, 0)
+	notifFrame.BackgroundColor3 = Colors.Window
+	notifFrame.BackgroundTransparency = 1
+	AddUICorner(notifFrame, 6)
+	local stroke = AddUIStroke(notifFrame, Colors.Border)
+	stroke.Transparency = 1
+
+	local titleLbl = Instance.new("TextLabel", notifFrame)
+	titleLbl.Size = UDim2.new(1, -20, 0, 20)
+	titleLbl.Position = UDim2.new(0, 10, 0, 5)
+	titleLbl.BackgroundTransparency = 1
+	titleLbl.Text = title
+	titleLbl.TextColor3 = Colors.Accent
+	titleLbl.Font = Enum.Font.GothamBold
+	titleLbl.TextSize = 13
+	titleLbl.TextXAlignment = Enum.TextXAlignment.Left
+	titleLbl.TextTransparency = 1
+
+	local descLbl = Instance.new("TextLabel", notifFrame)
+	descLbl.Size = UDim2.new(1, -20, 0, 25)
+	descLbl.Position = UDim2.new(0, 10, 0, 25)
+	descLbl.BackgroundTransparency = 1
+	descLbl.Text = text
+	descLbl.TextColor3 = Colors.TextMain
+	descLbl.Font = Enum.Font.Gotham
+	descLbl.TextSize = 12
+	descLbl.TextXAlignment = Enum.TextXAlignment.Left
+	descLbl.TextWrapped = true
+	descLbl.TextTransparency = 1
+
+	-- Animation Hiá»‡n
+	TweenService:Create(notifFrame, TweenInfo.new(0.4, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {
+		Position = UDim2.new(0, 0, 0, 0),
+		BackgroundTransparency = 0
+	}):Play()
+	TweenService:Create(stroke, TweenInfo.new(0.4), {Transparency = 0}):Play()
+	TweenService:Create(titleLbl, TweenInfo.new(0.4), {TextTransparency = 0}):Play()
+	TweenService:Create(descLbl, TweenInfo.new(0.4), {TextTransparency = 0}):Play()
+
+	-- Animation áº¨n
+	task.delay(duration, function()
+		local hideTween = TweenService:Create(notifFrame, TweenInfo.new(0.4, Enum.EasingStyle.Quart, Enum.EasingDirection.In), {
+			Position = UDim2.new(1, 50, 0, 0),
+			BackgroundTransparency = 1
+		})
+		TweenService:Create(stroke, TweenInfo.new(0.4), {Transparency = 1}):Play()
+		TweenService:Create(titleLbl, TweenInfo.new(0.4), {TextTransparency = 1}):Play()
+		TweenService:Create(descLbl, TweenInfo.new(0.4), {TextTransparency = 1}):Play()
+		
+		hideTween:Play()
+		hideTween.Completed:Connect(function()
+			notifFrame:Destroy()
+		end)
+	end)
+end
+
+function DragonFruitLib:CreateTab(tabName, iconSymbol)
+	local TabObj = {}
+	local window = self
+
+	local page = Instance.new("ScrollingFrame", window.ContentArea)
+	page.Size = UDim2.new(1, -20, 1, -20)
+	page.Position = UDim2.new(0, 10, 0, 10)
+	page.BackgroundTransparency = 1
+	page.ScrollBarThickness = 2
+	page.Visible = false
+
+	local PageList = Instance.new("UIListLayout", page)
+	PageList.SortOrder = Enum.SortOrder.LayoutOrder
+	PageList.Padding = UDim.new(0, 8)
+
+	-- NĂºt Tab chĂ­nh trĂªn Sidebar
+	local tabBtn = Instance.new("TextButton", window.TabListContainer)
+	tabBtn.Size = UDim2.new(1, 0, 0, 36)
+	tabBtn.BackgroundColor3 = Colors.SidebarUnselected
+	tabBtn.Text = ""
+	tabBtn.AutoButtonColor = false
+	AddUICorner(tabBtn, 8)
+
+	local hasIcon = iconSymbol and iconSymbol ~= ""
+
+	-- Icon dáº¡ng kĂ½ tá»±/emoji cho Tab
+	if hasIcon then
+		local tabIcon = Instance.new("TextLabel", tabBtn)
+		tabIcon.Size = UDim2.new(0, 24, 1, 0)
+		tabIcon.Position = UDim2.new(0, 8, 0, 0)
+		tabIcon.BackgroundTransparency = 1
+		tabIcon.Text = iconSymbol
+		tabIcon.TextColor3 = Colors.TextSub
+		tabIcon.Font = Enum.Font.GothamMedium
+		tabIcon.TextSize = 14
+		tabIcon.TextXAlignment = Enum.TextXAlignment.Center
+		TabObj.IconLabel = tabIcon
+	end
+
+	-- Text tĂªn Tab
+	local tabTextLabel = Instance.new("TextLabel", tabBtn)
+	tabTextLabel.Size = UDim2.new(1, hasIcon and -32 or -16, 1, 0)
+	tabTextLabel.Position = UDim2.new(0, hasIcon and 32 or 8, 0, 0)
+	tabTextLabel.BackgroundTransparency = 1
+	tabTextLabel.Text = tabName
+	tabTextLabel.TextColor3 = Colors.TextSub
+	tabTextLabel.Font = Enum.Font.GothamMedium
+	tabTextLabel.TextSize = 13
+	tabTextLabel.TextXAlignment = Enum.TextXAlignment.Left
+
+	local function ActivateTab()
+		for _, t in ipairs(window.Tabs) do
+			t.Page.Visible = false
+			TweenService:Create(t.Button, TweenInfo.new(0.2), {
+				BackgroundColor3 = Colors.SidebarUnselected
+			}):Play()
+			
+			for _, child in ipairs(t.Button:GetChildren()) do
+				if child:IsA("TextLabel") then
+					child.TextColor3 = Colors.TextSub
+				end
+			end
+		end
+
+		page.Position = UDim2.new(0, 20, 0, 10)
+		page.Visible = true
+		window.TitleLabel.Text = window.TitleText .. " - " .. tabName
+
+		TweenService:Create(page, TweenInfo.new(0.25, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {
+			Position = UDim2.new(0, 10, 0, 10)
+		}):Play()
+
+		TweenService:Create(tabBtn, TweenInfo.new(0.2), {
+			BackgroundColor3 = Colors.Accent
+		}):Play()
+
+		tabTextLabel.TextColor3 = Colors.TextMain
+		if TabObj.IconLabel then
+			TabObj.IconLabel.TextColor3 = Colors.TextMain
+		end
+	end
+
+	tabBtn.MouseEnter:Connect(function()
+		if not page.Visible then
+			TweenService:Create(tabBtn, TweenInfo.new(0.2), {BackgroundColor3 = Colors.SidebarHover}):Play()
+		end
+	end)
+
+	tabBtn.MouseLeave:Connect(function()
+		if not page.Visible then
+			TweenService:Create(tabBtn, TweenInfo.new(0.2), {BackgroundColor3 = Colors.SidebarUnselected}):Play()
+		end
+	end)
+
+	tabBtn.MouseButton1Click:Connect(ActivateTab)
+
+	TabObj.Page = page
+	TabObj.Button = tabBtn
+	table.insert(window.Tabs, TabObj)
+
+	if #window.Tabs == 1 then ActivateTab() end
+
+	function TabObj:AddLabel(text)
+		local label = Instance.new("TextLabel", page)
+		label.Size = UDim2.new(1, 0, 0, 22)
+		label.BackgroundTransparency = 1
+		label.Text = text
+		label.TextColor3 = Colors.TextSub
+		label.Font = Enum.Font.Gotham
+		label.TextSize = 12
+		label.TextXAlignment = Enum.TextXAlignment.Left
+	end
+
+	function TabObj:AddButton(options)
+		local btnText = options.Text or "Button"
+		local callback = options.Callback or function() end
+
+		local btn = Instance.new("TextButton", page)
+		btn.Size = UDim2.new(1, -5, 0, 38)
+		btn.BackgroundColor3 = Colors.Accent
+		btn.Text = btnText
+		btn.TextColor3 = Colors.TextMain
+		btn.Font = Enum.Font.GothamBold
+		btn.TextSize = 13
+		btn.AutoButtonColor = false
+		AddUICorner(btn, 6)
+
+		btn.MouseEnter:Connect(function()
+			TweenService:Create(btn, TweenInfo.new(0.2), {BackgroundColor3 = Colors.AccentHover}):Play()
+		end)
+		btn.MouseLeave:Connect(function()
+			TweenService:Create(btn, TweenInfo.new(0.2), {BackgroundColor3 = Colors.Accent}):Play()
+		end)
+		btn.MouseButton1Down:Connect(function()
+			TweenService:Create(btn, TweenInfo.new(0.1), {Size = UDim2.new(1, -9, 0, 35)}):Play()
+		end)
+		btn.MouseButton1Up:Connect(function()
+			TweenService:Create(btn, TweenInfo.new(0.1), {Size = UDim2.new(1, -5, 0, 38)}):Play()
+		end)
+
+		btn.MouseButton1Click:Connect(callback)
+	end
+
+	function TabObj:AddToggle(options)
+		local toggleText = options.Text or "Toggle"
+		local defaultState = options.Default or false
+		local callback = options.Callback or function() end
+
+		local frame = Instance.new("Frame", page)
+		frame.Size = UDim2.new(1, -5, 0, 38)
+		frame.BackgroundColor3 = Colors.Background
+		AddUICorner(frame, 6)
+		AddUIStroke(frame, Colors.Border)
+
+		local label = Instance.new("TextLabel", frame)
+		label.Size = UDim2.new(1, -65, 1, 0)
+		label.Position = UDim2.new(0, 12, 0, 0)
+		label.BackgroundTransparency = 1
+		label.Text = toggleText
+		label.TextColor3 = Colors.TextMain
+		label.Font = Enum.Font.GothamMedium
+		label.TextSize = 13
+		label.TextXAlignment = Enum.TextXAlignment.Left
+
+		local btn = Instance.new("TextButton", frame)
+		btn.Size = UDim2.new(0, 44, 0, 22)
+		btn.Position = UDim2.new(1, -52, 0.5, -11)
+		btn.BackgroundColor3 = defaultState and Colors.Accent or Colors.SidebarUnselected
+		btn.Text = ""
+		btn.AutoButtonColor = false
+		AddUICorner(btn, 11)
+
+		local dot = Instance.new("Frame", btn)
+		dot.Size = UDim2.new(0, 16, 0, 16)
+		dot.Position = UDim2.new(0, defaultState and 24 or 4, 0, 3)
+		dot.BackgroundColor3 = Colors.TextMain
+		AddUICorner(dot, 8)
+
+		local state = defaultState
+		btn.MouseButton1Click:Connect(function()
+			state = not state
+			TweenService:Create(btn, TweenInfo.new(0.2), {
+				BackgroundColor3 = state and Colors.Accent or Colors.SidebarUnselected
+			}):Play()
+			TweenService:Create(dot, TweenInfo.new(0.2), {
+				Position = UDim2.new(0, state and 24 or 4, 0, 3)
+			}):Play()
+			callback(state)
+		end)
+	end
+
+	function TabObj:AddSlider(options)
+		local sliderText = options.Text or "Slider"
+		local min = options.Min or 0
+		local max = options.Max or 100
+		local default = options.Default or min
+		local callback = options.Callback or function() end
+
+		local frame = Instance.new("Frame", page)
+		frame.Size = UDim2.new(1, -5, 0, 48)
+		frame.BackgroundColor3 = Colors.Background
+		AddUICorner(frame, 6)
+		AddUIStroke(frame, Colors.Border)
+
+		local label = Instance.new("TextLabel", frame)
+		label.Size = UDim2.new(1, -60, 0, 22)
+		label.Position = UDim2.new(0, 12, 0, 2)
+		label.BackgroundTransparency = 1
+		label.Text = sliderText
+		label.TextColor3 = Colors.TextMain
+		label.Font = Enum.Font.GothamMedium
+		label.TextSize = 13
+		label.TextXAlignment = Enum.TextXAlignment.Left
+
+		local valLabel = Instance.new("TextLabel", frame)
+		valLabel.Size = UDim2.new(0, 50, 0, 22)
+		valLabel.Position = UDim2.new(1, -60, 0, 2)
+		valLabel.BackgroundTransparency = 1
+		valLabel.Text = tostring(default)
+		valLabel.TextColor3 = Colors.Accent
+		valLabel.Font = Enum.Font.GothamBold
+		valLabel.TextSize = 13
+
+		local sliderBar = Instance.new("Frame", frame)
+		sliderBar.Size = UDim2.new(1, -24, 0, 6)
+		sliderBar.Position = UDim2.new(0, 12, 0, 32)
+		sliderBar.BackgroundColor3 = Colors.SidebarUnselected
+		AddUICorner(sliderBar, 3)
+
+		local sliderFill = Instance.new("Frame", sliderBar)
+		sliderFill.Size = UDim2.new((default - min) / (max - min), 0, 1, 0)
+		sliderFill.BackgroundColor3 = Colors.Accent
+		AddUICorner(sliderFill, 3)
+
+		local dragging = false
+		local function UpdateSlider(input)
+			local pos = math.clamp((input.Position.X - sliderBar.AbsolutePosition.X) / sliderBar.AbsoluteSize.X, 0, 1)
+			local value = math.floor(min + (max - min) * pos)
+			valLabel.Text = tostring(value)
+			TweenService:Create(sliderFill, TweenInfo.new(0.05), {Size = UDim2.new(pos, 0, 1, 0)}):Play()
+			callback(value)
+		end
+
+		sliderBar.InputBegan:Connect(function(input)
+			if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+				dragging = true
+				UpdateSlider(input)
+			end
+		end)
+
+		UserInputService.InputEnded:Connect(function(input)
+			if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+				dragging = false
+			end
+		end)
+
+		UserInputService.InputChanged:Connect(function(input)
+			if dragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
+				UpdateSlider(input)
+			end
+		end)
+	end
+
+	function TabObj:AddDropdown(options)
+		local dropText = options.Text or "Dropdown"
+		local items = options.Items or {}
+		local defaultItem = options.Default or items[1] or ""
+		local callback = options.Callback or function() end
+
+		local isDropped = false
+		local headerHeight = 38
+		local itemHeight = 32
+		local maxVisibleItems = 4
+		local currentChoice = defaultItem
+
+		local visibleCount = math.clamp(#items, 1, maxVisibleItems)
+		page.ClipsDescendants = false
+
+		local frame = Instance.new("Frame", page)
+		frame.Name = "Dropdown"
+		frame.Size = UDim2.new(1, -5, 0, headerHeight)
+		frame.BackgroundColor3 = Colors.Background
+		AddUICorner(frame, 6)
+		AddUIStroke(frame, Colors.Border)
+
+		local label = Instance.new("TextLabel", frame)
+		label.Size = UDim2.new(1, -40, 0, headerHeight)
+		label.Position = UDim2.new(0, 12, 0, 0)
+		label.BackgroundTransparency = 1
+		label.Text = dropText .. ": " .. tostring(currentChoice)
+		label.TextColor3 = Colors.TextMain
+		label.Font = Enum.Font.GothamMedium
+		label.TextSize = 13
+		label.TextXAlignment = Enum.TextXAlignment.Left
+
+		local arrow = Instance.new("TextLabel", frame)
+		arrow.Size = UDim2.new(0, 30, 0, headerHeight)
+		arrow.Position = UDim2.new(1, -35, 0, 0)
+		arrow.BackgroundTransparency = 1
+		arrow.Text = "â–¼"
+		arrow.TextColor3 = Colors.TextSub
+		arrow.Font = Enum.Font.GothamBold
+		arrow.TextSize = 11
+
+		local listContainer = Instance.new("ScrollingFrame", frame)
+		listContainer.Size = UDim2.new(1, 0, 0, 0)
+		listContainer.Position = UDim2.new(0, 0, 0, headerHeight + 4)
+		listContainer.BackgroundColor3 = Colors.Window
+		listContainer.BorderSizePixel = 0
+		listContainer.ZIndex = 50
+		listContainer.CanvasSize = UDim2.new(0, 0, 0, #items * itemHeight)
+		listContainer.ScrollBarThickness = 2
+		listContainer.ClipsDescendants = true
+		AddUICorner(listContainer, 6)
+		AddUIStroke(listContainer, Colors.Border)
+
+		local listLayout = Instance.new("UIListLayout", listContainer)
+		listLayout.SortOrder = Enum.SortOrder.LayoutOrder
+		listLayout.Padding = UDim.new(0, 2)
+
+		for _, item in ipairs(items) do
+			local itemBtn = Instance.new("TextButton", listContainer)
+			itemBtn.Size = UDim2.new(1, 0, 0, itemHeight)
+			itemBtn.BackgroundColor3 = Colors.SidebarUnselected
+			itemBtn.ZIndex = 51
+			itemBtn.Text = tostring(item)
+			itemBtn.TextColor3 = Colors.TextSub
+			itemBtn.Font = Enum.Font.Gotham
+			itemBtn.TextSize = 12
+			itemBtn.AutoButtonColor = false
+			AddUICorner(itemBtn, 4)
+
+			itemBtn.MouseButton1Click:Connect(function()
+				currentChoice = item
+				label.Text = dropText .. ": " .. tostring(currentChoice)
+				isDropped = false
+				
+				TweenService:Create(listContainer, TweenInfo.new(0.2), {Size = UDim2.new(1, 0, 0, 0)}):Play()
+				TweenService:Create(arrow, TweenInfo.new(0.2), {Rotation = 0}):Play()
+				callback(currentChoice)
+			end)
+		end
+
+		local triggerBtn = Instance.new("TextButton", frame)
+		triggerBtn.Size = UDim2.new(1, 0, 0, headerHeight)
+		triggerBtn.BackgroundTransparency = 1
+		triggerBtn.Text = ""
+
+		triggerBtn.MouseButton1Click:Connect(function()
+			isDropped = not isDropped
+
+			TweenService:Create(listContainer, TweenInfo.new(0.25, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {
+				Size = UDim2.new(1, 0, 0, isDropped and (visibleCount * itemHeight + 4) or 0)
+			}):Play()
+
+			TweenService:Create(arrow, TweenInfo.new(0.25), {
+				Rotation = isDropped and 180 or 0
+			}):Play()
+		end)
+	end
+
+	function TabObj:AddTextBox(options)
+		local boxText = options.Text or "TextBox"
+		local placeholder = options.Placeholder or "Nháº­p á»Ÿ Ä‘Ă¢y..."
+		local defaultVal = options.Default or ""
+		local callback = options.Callback or function() end
+
+		local frame = Instance.new("Frame", page)
+		frame.Size = UDim2.new(1, -5, 0, 48)
+		frame.BackgroundColor3 = Colors.Background
+		AddUICorner(frame, 6)
+		AddUIStroke(frame, Colors.Border)
+
+		local label = Instance.new("TextLabel", frame)
+		label.Size = UDim2.new(1, -24, 0, 18)
+		label.Position = UDim2.new(0, 12, 0, 4)
+		label.BackgroundTransparency = 1
+		label.Text = boxText
+		label.TextColor3 = Colors.TextSub
+		label.Font = Enum.Font.GothamMedium
+		label.TextSize = 12
+		label.TextXAlignment = Enum.TextXAlignment.Left
+
+		local textBox = Instance.new("TextBox", frame)
+		textBox.Size = UDim2.new(1, -24, 0, 20)
+		textBox.Position = UDim2.new(0, 12, 0, 24)
+		textBox.BackgroundColor3 = Colors.SidebarUnselected
+		textBox.Text = defaultVal
+		textBox.PlaceholderText = placeholder
+		textBox.TextColor3 = Colors.TextMain
+		textBox.PlaceholderColor3 = Color3.fromRGB(100, 100, 110)
+		textBox.Font = Enum.Font.Gotham
+		textBox.TextSize = 12
+		textBox.ClearTextOnFocus = false
+		AddUICorner(textBox, 4)
+
+		textBox.FocusLost:Connect(function(enterPressed)
+			callback(textBox.Text, enterPressed)
+		end)
+	end
+
+	return TabObj
+end
+
+return DragonFruitLib
