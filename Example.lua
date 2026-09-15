@@ -1,77 +1,64 @@
-local DragonFruitLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/Merayliewz/DRAGON-FRUIT-LIB/refs/heads/main/dragonfruit%20lib.lua"))()
+local DragonFruitLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/Merayliewz/DRAGON-FRUIT-LIB/refs/heads/main/dragonfruit%20lib.lua"))() -- Hoặc require nếu trong game
 
--- =================================================================
--- 2. KHỞI TẠO CỬA SỔ & THÊM MẤY NÚT CHỨC NĂNG BÊN DƯỚI
--- =================================================================
+-- Tạo Cửa Sổ UI với Theme tùy chọn ("DragonFruit", "Dark", "Ocean", "Emerald", "Midnight", "Cyberpunk", "Blood")
 local Window = DragonFruitLib:CreateWindow({
-	Title = "Dragon Fruit Hub",
-	Logo = "rbxassetid://90272501948122" -- ID Logo trái chuối (Hiển thị bự ở giữa Sidebar)
+	Title = "Dragon Fruit Hub v2",
+	Logo = "rbxassetid://90272501948122",
+	Theme = "DragonFruit"
 })
 
--- Tạo các Tab
-local MainTab = Window:CreateTab("Trang Chủ", "🏠") 
-local FarmTab = Window:CreateTab("Auto Farm", "⚔️")
+-- TAB CHÍNH
+local MainTab = Window:CreateTab("Trang Chủ", "🏠")
 local SettingsTab = Window:CreateTab("Cài Đặt", "⚙️")
-
--- Thêm chức năng vào Tab Trang Chủ
 MainTab:AddLabel("Chào mừng bạn đến với Dragon Fruit Hub!")
+
 MainTab:AddButton({
-	Text = "Kiểm tra Console",
+	Text = "Bật Auto Farm",
 	Callback = function()
-		print("UI đã tải và hoạt động thành công!")
+		Window:Notify("Thông Báo", "Đã bật tính năng Auto Farm!", 3)
 	end
 })
 
--- Thêm chức năng vào Tab Auto Farm
-FarmTab:AddToggle({
-	Text = "Bật Auto Farm Quái",
-	Default = false,
-	Callback = function(Value)
-		print("Trạng thái Auto Farm:", Value)
-	end
-})
-
-FarmTab:AddDropdown({
-    Text = "Chọn Vũ Khí",
-    Items = {"Katana", "Blade", "Gun"},
-    Default = "Katana",
-    Callback = function(selectedItem)
-        print("Đã chọn:", selectedItem)
-    end
-})
-
-FarmTab:AddToggle({
-	Text = "Tự động nhặt đồ",
+MainTab:AddToggle({
+	Text = "Gom Mái Nhà (Auto Teleport)",
 	Default = true,
 	Callback = function(Value)
-		print("Trạng thái Nhặt Đồ:", Value)
+		print("Trạng thái Toggle:", Value)
 	end
 })
 
-FarmTab:AddSlider({
-	Text = "Tốc độ gom quái",
-	Min = 10,
-	Max = 100,
+MainTab:AddSlider({
+	Text = "Tốc Độ Di Chuyển",
+	Min = 16,
+	Max = 200,
 	Default = 50,
 	Callback = function(Value)
-		print("Tốc độ gom quái:", Value)
+		print("Tốc độ mới:", Value)
 	end
 })
 
--- Thêm chức năng vào Tab Cài Đặt
-SettingsTab:AddTextBox({
-    Text = "Webhook URL",
-    Placeholder = "Dán link Discord Webhook vào đây...",
-    Default = "",
-    Callback = function(text, enterPressed)
-        print("Nội dung đã nhập:", text)
+-- TAB CÀI ĐẶT THEMES (CẤU HÌNH GIAO DIỆN)
+SettingsTab:AddLabel("Tùy Chọn Giao Diện (Themes)")
+
+-- Tự động lấy danh sách Theme từ Library để tạo Dropdown
+local themeList = Window:GetThemes()
+
+SettingsTab:AddDropdown({
+	Text = "Đổi Theme",
+	Items = themeList,
+	Default = "DragonFruit",
+	Callback = function(selectedTheme)
+		Window:SetTheme(selectedTheme)
+		Window:Notify("Giao Diện", "Đã chuyển sang Theme: " .. selectedTheme, 3)
 	end
 })
-		
-SettingsTab:AddToggle({
-	Text = "Gửi thông báo Webhook",
-	Default = false,
-	Callback = function(Value)
-		print("Webhook:", Value)
+
+SettingsTab:AddTextBox({
+	Text = "Mã Ghép",
+	Placeholder = "Nhập Key vào đây...",
+	Callback = function(Text, EnterPressed)
+		if EnterPressed then
+			print("Đã ấn Enter gửi text:", Text)
+		end
 	end
 })
