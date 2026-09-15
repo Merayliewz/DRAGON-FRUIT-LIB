@@ -98,6 +98,19 @@ DragonFruitLib.Themes = {
 	}
 }
 
+-- =================================================================
+-- BẢNG PHÔNG CHỮ SẴN CÓ (FONT PRESETS)
+-- =================================================================
+DragonFruitLib.FontPresets = {
+	Gotham = { Main = Enum.Font.Gotham, Bold = Enum.Font.GothamBold, Medium = Enum.Font.GothamMedium },
+	Roboto = { Main = Enum.Font.Roboto, Bold = Enum.Font.RobotoCondensed, Medium = Enum.Font.Roboto },
+	FredokaOne = { Main = Enum.Font.FredokaOne, Bold = Enum.Font.FredokaOne, Medium = Enum.Font.FredokaOne },
+	SourceSans = { Main = Enum.Font.SourceSans, Bold = Enum.Font.SourceSansBold, Medium = Enum.Font.SourceSansSemibold },
+	Ubuntu = { Main = Enum.Font.Ubuntu, Bold = Enum.Font.Ubuntu, Medium = Enum.Font.Ubuntu },
+	Arcade = { Main = Enum.Font.Arcade, Bold = Enum.Font.Arcade, Medium = Enum.Font.Arcade },
+	BuilderSans = { Main = Enum.Font.BuilderSans, Bold = Enum.Font.BuilderSansBold, Medium = Enum.Font.BuilderSansMedium }
+}
+
 local function AddUICorner(parent, radius)
 	local corner = Instance.new("UICorner", parent)
 	corner.CornerRadius = UDim.new(0, radius)
@@ -112,7 +125,7 @@ local function AddUIStroke(parent, color)
 end
 
 -- =================================================================
--- QUẢN LÝ THEME CỦA WINDOW
+-- QUẢN LÝ THEME VÀ FONT CỦA WINDOW
 -- =================================================================
 function DragonFruitLib:BindTheme(instance, property, role)
 	table.insert(self.ThemeObjects, {
@@ -155,6 +168,40 @@ function DragonFruitLib:GetThemes()
 	return list
 end
 
+function DragonFruitLib:BindFont(instance, fontRole)
+	table.insert(self.FontObjects, {
+		Instance = instance,
+		Role = fontRole or "Main"
+	})
+	if self.Fonts[fontRole] then
+		instance.Font = self.Fonts[fontRole]
+	end
+	return instance
+end
+
+function DragonFruitLib:SetFont(fontName)
+	local targetPreset = DragonFruitLib.FontPresets[fontName]
+	if not targetPreset then return end
+
+	self.CurrentFontName = fontName
+	self.Fonts = targetPreset
+
+	for _, item in ipairs(self.FontObjects) do
+		if item.Instance and item.Instance.Parent and self.Fonts[item.Role] then
+			item.Instance.Font = self.Fonts[item.Role]
+		end
+	end
+end
+
+function DragonFruitLib:GetFonts()
+	local list = {}
+	for name, _ in pairs(DragonFruitLib.FontPresets) do
+		table.insert(list, name)
+	end
+	table.sort(list)
+	return list
+end
+
 -- =================================================================
 -- TẠO CỬA SỔ CHÍNH (CREATE WINDOW)
 -- =================================================================
@@ -165,8 +212,9 @@ function DragonFruitLib:CreateWindow(config)
 	WindowObj.LogoId = config.Logo or "rbxassetid://90272501948122"
 	WindowObj.Tabs = {}
 	WindowObj.ThemeObjects = {}
+	WindowObj.FontObjects = {}
 
-	-- Khởi tạo bảng màu riêng cho Window
+	-- Khởi tạo Theme
 	local selectedTheme = config.Theme or "DragonFruit"
 	local baseTheme = DragonFruitLib.Themes[selectedTheme] or DragonFruitLib.Themes.DragonFruit
 	WindowObj.Colors = {}
@@ -174,6 +222,11 @@ function DragonFruitLib:CreateWindow(config)
 		WindowObj.Colors[k] = v
 	end
 	WindowObj.CurrentThemeName = selectedTheme
+
+	-- Khởi tạo Font
+	local selectedFont = config.Font or "Gotham"
+	WindowObj.Fonts = DragonFruitLib.FontPresets[selectedFont] or DragonFruitLib.FontPresets.Gotham
+	WindowObj.CurrentFontName = selectedFont
 
 	local ScreenGui = Instance.new("ScreenGui")
 	ScreenGui.Name = game:GetService("HttpService"):GenerateGUID(false)
@@ -196,7 +249,7 @@ function DragonFruitLib:CreateWindow(config)
 
 	WindowObj.ScreenGui = ScreenGui
 
-	-- TÍNH TOÁN KÍCH THƯỚC BAN ĐẦU THEO MÀN HÌNH THIẾT BỊ
+	-- Kích thước ban đầu dựa theo màn hình thiết bị
 	local Camera = Workspace.CurrentCamera
 	local viewportSize = Camera and Camera.ViewportSize or Vector2.new(1280, 720)
 
@@ -253,7 +306,7 @@ function DragonFruitLib:CreateWindow(config)
 	WindowObj:BindTheme(mainStroke, "Color", "Border")
 	WindowObj.MainFrame = MainFrame
 
-	-- Animation Mở / Đóng Cửa Sổ (Giữ đúng kích thước đã resize)
+	-- Animation Mở / Đóng Cửa Sổ
 	local isOpen = true
 	ToggleBtn.MouseButton1Click:Connect(function()
 		isOpen = not isOpen
@@ -311,10 +364,10 @@ function DragonFruitLib:CreateWindow(config)
 	TitleLabel.BackgroundTransparency = 1
 	TitleLabel.Text = WindowObj.TitleText
 	TitleLabel.TextColor3 = WindowObj.Colors.TextSub
-	TitleLabel.Font = Enum.Font.GothamBold
 	TitleLabel.TextSize = 13
 	TitleLabel.TextXAlignment = Enum.TextXAlignment.Center
 	WindowObj:BindTheme(TitleLabel, "TextColor3", "TextSub")
+	WindowObj:BindFont(TitleLabel, "Bold")
 	WindowObj.TitleLabel = TitleLabel
 
 	local HeaderLine = Instance.new("Frame", Header)
@@ -357,7 +410,7 @@ function DragonFruitLib:CreateWindow(config)
 	WindowObj.ContentArea = ContentArea
 	WindowObj.TabListContainer = TabListContainer
 
-	-- TÍNH NĂNG KÉO GIÃN THU PHÓNG (RESIZE & AUTO SAVE SIZE)
+	-- KÉO GIÃN THU PHÓNG (RESIZE & AUTO SAVE SIZE)
 	local ResizeHandle = Instance.new("TextButton", MainFrame)
 	ResizeHandle.Name = "ResizeHandle"
 	ResizeHandle.Size = UDim2.new(0, 18, 0, 18)
@@ -368,6 +421,7 @@ function DragonFruitLib:CreateWindow(config)
 	ResizeHandle.TextSize = 13
 	ResizeHandle.ZIndex = 100
 	WindowObj:BindTheme(ResizeHandle, "TextColor3", "TextSub")
+	WindowObj:BindFont(ResizeHandle, "Bold")
 
 	local isResizing = false
 	local dragStart, startSize
@@ -389,7 +443,6 @@ function DragonFruitLib:CreateWindow(config)
 			local newWidth = math.clamp(startSize.X.Offset + delta.X, 340, math.max(340, screenBounds.X - 20))
 			local newHeight = math.clamp(startSize.Y.Offset + delta.Y, 230, math.max(230, screenBounds.Y - 20))
 
-			-- Cập nhật và lưu lại kích thước mới
 			WindowObj.SavedWidth = newWidth
 			WindowObj.SavedHeight = newHeight
 			MainFrame.Size = UDim2.new(0, newWidth, 0, newHeight)
@@ -410,7 +463,7 @@ function DragonFruitLib:CreateWindow(config)
 end
 
 -- =================================================================
--- TÍNH NĂNG THÔNG BÁO (NOTIFICATION)
+-- THÔNG BÁO (NOTIFICATION)
 -- =================================================================
 function DragonFruitLib:Notify(title, text, duration)
 	duration = duration or 3
@@ -432,11 +485,11 @@ function DragonFruitLib:Notify(title, text, duration)
 	titleLbl.BackgroundTransparency = 1
 	titleLbl.Text = title
 	titleLbl.TextColor3 = self.Colors.Accent
-	titleLbl.Font = Enum.Font.GothamBold
 	titleLbl.TextSize = 13
 	titleLbl.TextXAlignment = Enum.TextXAlignment.Left
 	titleLbl.TextTransparency = 1
 	self:BindTheme(titleLbl, "TextColor3", "Accent")
+	self:BindFont(titleLbl, "Bold")
 
 	local descLbl = Instance.new("TextLabel", notifFrame)
 	descLbl.Size = UDim2.new(1, -20, 0, 25)
@@ -444,12 +497,12 @@ function DragonFruitLib:Notify(title, text, duration)
 	descLbl.BackgroundTransparency = 1
 	descLbl.Text = text
 	descLbl.TextColor3 = self.Colors.TextMain
-	descLbl.Font = Enum.Font.Gotham
 	descLbl.TextSize = 12
 	descLbl.TextXAlignment = Enum.TextXAlignment.Left
 	descLbl.TextWrapped = true
 	descLbl.TextTransparency = 1
 	self:BindTheme(descLbl, "TextColor3", "TextMain")
+	self:BindFont(descLbl, "Main")
 
 	TweenService:Create(notifFrame, TweenInfo.new(0.4, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {
 		Position = UDim2.new(0, 0, 0, 0),
@@ -510,10 +563,10 @@ function DragonFruitLib:CreateTab(tabName, iconSymbol)
 		tabIcon.BackgroundTransparency = 1
 		tabIcon.Text = iconSymbol
 		tabIcon.TextColor3 = window.Colors.TextSub
-		tabIcon.Font = Enum.Font.GothamMedium
 		tabIcon.TextSize = 14
 		tabIcon.TextXAlignment = Enum.TextXAlignment.Center
 		window:BindTheme(tabIcon, "TextColor3", "TextSub")
+		window:BindFont(tabIcon, "Medium")
 		TabObj.IconLabel = tabIcon
 	end
 
@@ -523,10 +576,10 @@ function DragonFruitLib:CreateTab(tabName, iconSymbol)
 	tabTextLabel.BackgroundTransparency = 1
 	tabTextLabel.Text = tabName
 	tabTextLabel.TextColor3 = window.Colors.TextSub
-	tabTextLabel.Font = Enum.Font.GothamMedium
 	tabTextLabel.TextSize = 13
 	tabTextLabel.TextXAlignment = Enum.TextXAlignment.Left
 	window:BindTheme(tabTextLabel, "TextColor3", "TextSub")
+	window:BindFont(tabTextLabel, "Medium")
 
 	local function ActivateTab()
 		for _, t in ipairs(window.Tabs) do
@@ -586,10 +639,10 @@ function DragonFruitLib:CreateTab(tabName, iconSymbol)
 		label.BackgroundTransparency = 1
 		label.Text = text
 		label.TextColor3 = window.Colors.TextSub
-		label.Font = Enum.Font.Gotham
 		label.TextSize = 12
 		label.TextXAlignment = Enum.TextXAlignment.Left
 		window:BindTheme(label, "TextColor3", "TextSub")
+		window:BindFont(label, "Main")
 	end
 
 	function TabObj:AddButton(options)
@@ -602,12 +655,12 @@ function DragonFruitLib:CreateTab(tabName, iconSymbol)
 		btn.BackgroundColor3 = window.Colors.Accent
 		btn.Text = btnText
 		btn.TextColor3 = window.Colors.TextMain
-		btn.Font = Enum.Font.GothamBold
 		btn.TextSize = 13
 		btn.AutoButtonColor = false
 		AddUICorner(btn, 6)
 		window:BindTheme(btn, "BackgroundColor3", "Accent")
 		window:BindTheme(btn, "TextColor3", "TextMain")
+		window:BindFont(btn, "Bold")
 
 		btn.MouseEnter:Connect(function()
 			TweenService:Create(btn, TweenInfo.new(0.2), {BackgroundColor3 = window.Colors.AccentHover}):Play()
@@ -645,10 +698,10 @@ function DragonFruitLib:CreateTab(tabName, iconSymbol)
 		label.BackgroundTransparency = 1
 		label.Text = toggleText
 		label.TextColor3 = window.Colors.TextMain
-		label.Font = Enum.Font.GothamMedium
 		label.TextSize = 13
 		label.TextXAlignment = Enum.TextXAlignment.Left
 		window:BindTheme(label, "TextColor3", "TextMain")
+		window:BindFont(label, "Medium")
 
 		local btn = Instance.new("TextButton", frame)
 		btn.Size = UDim2.new(0, 44, 0, 22)
@@ -700,10 +753,10 @@ function DragonFruitLib:CreateTab(tabName, iconSymbol)
 		label.BackgroundTransparency = 1
 		label.Text = sliderText
 		label.TextColor3 = window.Colors.TextMain
-		label.Font = Enum.Font.GothamMedium
 		label.TextSize = 13
 		label.TextXAlignment = Enum.TextXAlignment.Left
 		window:BindTheme(label, "TextColor3", "TextMain")
+		window:BindFont(label, "Medium")
 
 		local valLabel = Instance.new("TextLabel", frame)
 		valLabel.Size = UDim2.new(0, 50, 0, 22)
@@ -711,9 +764,9 @@ function DragonFruitLib:CreateTab(tabName, iconSymbol)
 		valLabel.BackgroundTransparency = 1
 		valLabel.Text = tostring(default)
 		valLabel.TextColor3 = window.Colors.Accent
-		valLabel.Font = Enum.Font.GothamBold
 		valLabel.TextSize = 13
 		window:BindTheme(valLabel, "TextColor3", "Accent")
+		window:BindFont(valLabel, "Bold")
 
 		local sliderBar = Instance.new("Frame", frame)
 		sliderBar.Size = UDim2.new(1, -24, 0, 6)
@@ -788,10 +841,10 @@ function DragonFruitLib:CreateTab(tabName, iconSymbol)
 		label.BackgroundTransparency = 1
 		label.Text = dropText .. ": " .. tostring(currentChoice)
 		label.TextColor3 = window.Colors.TextMain
-		label.Font = Enum.Font.GothamMedium
 		label.TextSize = 13
 		label.TextXAlignment = Enum.TextXAlignment.Left
 		window:BindTheme(label, "TextColor3", "TextMain")
+		window:BindFont(label, "Medium")
 
 		local arrow = Instance.new("TextLabel", frame)
 		arrow.Size = UDim2.new(0, 30, 0, headerHeight)
@@ -799,9 +852,9 @@ function DragonFruitLib:CreateTab(tabName, iconSymbol)
 		arrow.BackgroundTransparency = 1
 		arrow.Text = "▼"
 		arrow.TextColor3 = window.Colors.TextSub
-		arrow.Font = Enum.Font.GothamBold
 		arrow.TextSize = 11
 		window:BindTheme(arrow, "TextColor3", "TextSub")
+		window:BindFont(arrow, "Bold")
 
 		local listContainer = Instance.new("ScrollingFrame", frame)
 		listContainer.Size = UDim2.new(1, 0, 0, 0)
@@ -851,10 +904,10 @@ function DragonFruitLib:CreateTab(tabName, iconSymbol)
 				itemBtn.BackgroundColor3 = window.Colors.Window
 				itemBtn.Text = tostring(v)
 				itemBtn.TextColor3 = (v == currentChoice) and window.Colors.Accent or window.Colors.TextSub
-				itemBtn.Font = Enum.Font.Gotham
 				itemBtn.TextSize = 12
 				itemBtn.ZIndex = 51
 				window:BindTheme(itemBtn, "BackgroundColor3", "Window")
+				window:BindFont(itemBtn, "Main")
 
 				itemBtn.MouseButton1Click:Connect(function()
 					currentChoice = v
@@ -901,10 +954,10 @@ function DragonFruitLib:CreateTab(tabName, iconSymbol)
 		label.BackgroundTransparency = 1
 		label.Text = boxText
 		label.TextColor3 = window.Colors.TextMain
-		label.Font = Enum.Font.GothamMedium
 		label.TextSize = 13
 		label.TextXAlignment = Enum.TextXAlignment.Left
 		window:BindTheme(label, "TextColor3", "TextMain")
+		window:BindFont(label, "Medium")
 
 		local textBox = Instance.new("TextBox", frame)
 		textBox.Size = UDim2.new(1, -125, 0, 26)
@@ -914,12 +967,12 @@ function DragonFruitLib:CreateTab(tabName, iconSymbol)
 		textBox.PlaceholderText = placeholder
 		textBox.TextColor3 = window.Colors.TextMain
 		textBox.PlaceholderColor3 = window.Colors.TextSub
-		textBox.Font = Enum.Font.Gotham
 		textBox.TextSize = 12
 		textBox.ClearTextOnFocus = false
 		AddUICorner(textBox, 4)
 		window:BindTheme(textBox, "BackgroundColor3", "SidebarUnselected")
 		window:BindTheme(textBox, "TextColor3", "TextMain")
+		window:BindFont(textBox, "Main")
 
 		textBox.FocusLost:Connect(function(enterPressed)
 			callback(textBox.Text, enterPressed)
